@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: web-server
-          image: codegold79/eugene-food-scene:1.0.2
+          image: codegold79/eugene-food-scene:1.0.3
           resources:
             limits:
               cpu: 0.25
