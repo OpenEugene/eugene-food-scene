@@ -214,8 +214,9 @@ Brandon's CSS Hacks below lol
     } 
 
     .navigation-item-wrapper { 
-        width: 30%; 
-        margin: auto;   
+        width: 40%; 
+        margin: auto; 
+        text-align: left;  
     }
 
     .navigation-item:not(:last-child) {
