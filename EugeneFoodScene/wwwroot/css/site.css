@@ -1,7 +1,7 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;  
 }
 
 a, .btn-link {
@@ -180,3 +180,47 @@ app {
         background-repeat: repeat-x;
     }
 }
+
+/*              
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+Brandon's CSS Hacks below lol
+//////////////////////////////
+*/
+.header { 
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    background-color: #d0b02e;   
+}
+
+    .header img {
+        max-width: 100%; 
+        min-height: 3rem;  
+    }
+
+.menu {
+    display: flex;
+    justify-content: space-evenly; 
+}
+
+.card {
+    text-align: center; 
+}
+
+@media(max-width: 765px) {
+    .menu {
+        flex-direction: column;
+        text-align: center; 
+    } 
+
+    .navigation-item-wrapper { 
+        width: 30%; 
+        margin: auto;   
+    }
+
+    .navigation-item:not(:last-child) {
+        border-bottom: 1px dotted lightgray;  
+
+    } 
+
+} 
