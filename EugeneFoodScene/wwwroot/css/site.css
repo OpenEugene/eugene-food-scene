@@ -26,6 +26,28 @@ app {
     align-items: center;
 }
 
+.header { 
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    background-color: #d0b02e;   
+}
+
+    .header img {
+        max-width: 100%; 
+        min-height: 75px; 
+    }
+
+.menu {
+    display: flex;
+    justify-content: space-evenly; 
+}
+
+.card {
+    text-align: center; 
+}
+
+
 .main {
     flex: 1;
 }
@@ -137,6 +159,27 @@ app {
 }
 
 @media (max-width: 767.98px) {
+    .menu {
+        flex-direction: column;
+        text-align: center; 
+    } 
+
+    .navigation-item {
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+    }
+
+    .navigation-item:not(:last-child) {
+        border-bottom: 1px dotted lightgray;  
+
+    } 
+
+    .navigation-item-wrapper { 
+        min-width: 10rem;
+        text-align: left; 
+    }
+
     .main .top-row:not(.auth) {
         display: none;
     }
@@ -180,48 +223,3 @@ app {
         background-repeat: repeat-x;
     }
 }
-
-/*              
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-Brandon's CSS Hacks below lol
-//////////////////////////////
-*/
-.header { 
-    display: flex;
-    justify-content: center;
-    align-items: center;  
-    background-color: #d0b02e;   
-}
-
-    .header img {
-        max-width: 100%; 
-        min-height: 3rem;  
-    }
-
-.menu {
-    display: flex;
-    justify-content: space-evenly; 
-}
-
-.card {
-    text-align: center; 
-}
-
-@media(max-width: 765px) {
-    .menu {
-        flex-direction: column;
-        text-align: center; 
-    } 
-
-    .navigation-item-wrapper { 
-        width: 40%; 
-        margin: auto; 
-        text-align: left;  
-    }
-
-    .navigation-item:not(:last-child) {
-        border-bottom: 1px dotted lightgray;  
-
-    } 
-
-} 
