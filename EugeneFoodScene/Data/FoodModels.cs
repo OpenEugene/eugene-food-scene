@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using AirtableApiClient;
 using Newtonsoft.Json;
 
 namespace EugeneFoodScene.Data
@@ -30,7 +31,7 @@ namespace EugeneFoodScene.Data
         public string Address { get; set; }
         public string Notes { get; set; }
         public List<OrderDeliveryLink> OrderDeliveryLinks { get; set; }
-        public List<String> Menu { get; set; }
+        public List<AirtableAttachment> Menu { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
 
