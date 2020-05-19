@@ -7,6 +7,11 @@
     <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Custom' ">
+    <StartAction>Project</StartAction>
+    <ExternalConsole>true</ExternalConsole>
+    <ApplicationURL>https://localhost:5003;http://localhost:5002</ApplicationURL>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Data\WeatherForecastService - Copy.cs" />
   </ItemGroup>
