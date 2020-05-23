@@ -1,7 +1,7 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;  
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 a, .btn-link {
@@ -42,11 +42,15 @@ app {
     display: flex;
     justify-content: space-evenly; 
 }
+    .navigation-item-link:hover {
+        cursor: pointer;
+    }
 
 .card {
     text-align: center; 
+    margin-bottom: 2rem;
+    margin-top: 1rem;
 }
-
 
 .main {
     flex: 1;
@@ -157,6 +161,46 @@ app {
     right: 0.75rem;
     top: 0.5rem;
 }
+
+/* Restaurant card styles */
+.ui-g {
+    display: flex;
+}
+
+.ui-g .card{
+    flex: 1 2 0;
+    min-width: 20rem;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+.ui-g .ui-fieldset {
+    border: 1px solid #479cc8;
+}
+
+.ui-g .ui-fieldset-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 19rem;
+}
+
+.ui-g .ui-fieldset-content > div, 
+.ui-g .ui-fieldset-content > b {
+    flex: 1;
+}
+
+.ui-g .ui-fieldset-content > div:first-child{
+    display: none;
+}
+
+.ui-g .ui-fieldset-content b a {
+    color: #479cc8;
+    font-size: 1.2rem;
+}
+.ui-g .ui-fieldset-content b a:hover {
+    color: #d0b02e;
+}
+
+
 
 @media (max-width: 767.98px) {
     .menu {
