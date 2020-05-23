@@ -15,6 +15,28 @@ else
     <RadzenCard>
         <RadzenIcon Icon="feedback" />Better search is coming soon.  For now, you can filter any column by typing a few letters after the <RadzenIcon Icon="search" />
     </RadzenCard>
+
+    <RadzenDataList WrapItems="true" AllowPaging="true" Data="@places" TItem="Place">
+        <Template Context="place">
+            <RadzenCard >
+                <RadzenFieldset>
+                    <div>Name:</div>
+                    <b><RadzenLink Text="@place.Name" Path="@place.URL" target="_blank"></RadzenLink></b>
+                    <div>Phone:</div>
+                    <b>@place.Phone</b>
+                    <div>Cuisines:</div>
+                    <b>@place.CuisineDisplay</b>
+
+                    <div>"Delivery Services:</div>
+                    <b>@place.DeliveryOptionsDisplay</b>
+
+                    <div>"Address:</div>
+                    <b>@place.Address</b>
+
+                </RadzenFieldset>
+            </RadzenCard>
+        </Template>
+    </RadzenDataList>
 <RadzenGrid AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="15"
             AllowSorting="true" Data="@places" TItem="Place">
     <Columns>
