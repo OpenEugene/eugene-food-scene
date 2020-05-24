@@ -172,32 +172,31 @@ app {
     flex: 1 2 0;
     min-width: 20rem;
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    border: 3px solid #d0b02e;
+    border-radius: 6%;
 }
 
-.ui-g .ui-fieldset {
-    border: 1px solid #479cc8;
-}
-
-.ui-g .ui-fieldset-content {
+.ui-g .card {
     display: flex;
     flex-direction: column;
     min-height: 19rem;
 }
 
-.ui-g .ui-fieldset-content > div, 
-.ui-g .ui-fieldset-content > b {
+.ui-g .card > div, 
+.ui-g .card > b {
     flex: 1;
 }
 
-.ui-g .ui-fieldset-content > div:first-child{
+.ui-g .card > div:first-child{
     display: none;
 }
 
-.ui-g .ui-fieldset-content b a {
+.ui-g .card b a {
     color: #479cc8;
     font-size: 1.2rem;
 }
-.ui-g .ui-fieldset-content b a:hover {
+.ui-g .card b a:hover {
     color: #d0b02e;
 }
 
