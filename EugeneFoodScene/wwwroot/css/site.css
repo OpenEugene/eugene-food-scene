@@ -35,7 +35,8 @@ app {
 
     .header img {
         max-width: 100%; 
-        min-height: 75px; 
+        display: block;
+        margin: 0 auto;
     }
 
 .menu {
@@ -267,3 +268,81 @@ app {
         background-repeat: repeat-x;
     }
 }
+
+/* Jam Session day 2 - New Sidebar and header components! */
+
+/* Header */
+.header {
+    display: block;
+}
+
+.header .ui-panel {
+    padding: 1rem 3rem;
+}
+
+.header .ui-panel-content {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+    .header .ui-panel-content img {
+        margin: 0;
+        margin-right: 3rem;
+    }
+
+    .header .ui-panel-content i {
+        margin-right: 1.5rem;
+        color: #3a474d;
+    }
+
+    .header .ui-panel-content .textbox {
+        width: 20%;
+        border: 1px solid #3a474d;
+        border-right: none;
+        border-radius: 4px 0 0 4px;
+    }
+
+    .header .ui-panel-content .textbox:focus {
+        outline: none;
+        border: 3px solid #479cc8;
+    }
+
+    .header .ui-panel-content .ui-button {
+        width: 10%;
+        border-radius: 0 4px 4px 0;
+        background-color: #d0b02e;
+    }
+
+    .header .ui-panel-content .ui-button:hover {
+        background-color: #479cc8;
+    }
+
+    /* Filter */
+    .ui-selectbutton {
+        display: block;
+        margin-bottom: .5rem;
+    }
+
+    .ui-chkbox:focus {
+        outline: none;
+        border: 3px solid #479cc8;
+        border-radius: 4px;
+    }
+
+    .ui-buttonset-4 .ui-button{
+        display: inline-block;
+        width: 25%;
+        padding: 0;
+    }
+
+    .ui-selectbutton .ui-button .ui-button-text {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+    }
+
+    .ui-buttonset-4 + span {
+        display: block;
+        height: 2rem;
+    }
