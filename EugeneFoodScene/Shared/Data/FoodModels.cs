@@ -13,6 +13,7 @@ namespace EugeneFoodScene.Data
     /// </summary>
     public class Place
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public List<String> Category { get; set; }
 
@@ -41,12 +42,14 @@ namespace EugeneFoodScene.Data
     /// </summary>
     public class Category
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public List<Place> Places { get; set; }
     }
 
     public class Cuisine
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public List<String> Places { get; set; }
         public List<Place> PlacesList { get; set; }
@@ -54,6 +57,7 @@ namespace EugeneFoodScene.Data
 
     public class DeliveryService
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public List<string> Places { get; set; }
         public List<string> OrderDeliveryLinks { get; set; }
@@ -61,6 +65,7 @@ namespace EugeneFoodScene.Data
 
     public class OrderDeliveryLink
     {
+        public string Id { get; set; }
         public string URL { get; set; }
         public List<String> Places { get; set; }
         public List<String> DeliveryServices { get; set; }

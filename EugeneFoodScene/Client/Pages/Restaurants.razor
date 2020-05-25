@@ -4,7 +4,7 @@
 @using AirtableApiClient
 @using EugeneFoodScene.Data
 
-@inject HttpClient Http
+@inject PlacesCache cache
 
 @if (places == null)
 {
@@ -49,7 +49,7 @@ else
                     <RadzenCard>
 
                         <div>Name:</div>
-                        <b><RadzenLink Text="@place.Name" Path="@place.URL" target="_blank"></RadzenLink></b>
+                        <b><RadzenLink Text="@place.Name"Path="@($"restaurant/{place.Id}")"></RadzenLink></b>
                         <div>Phone:</div>
                         <b>@place.Phone</b>
                         <div>Cuisines:</div>
@@ -69,12 +69,13 @@ else
 }
 
 @code {
-    private Place[] places;
+    private List<Place> places;
 
 
     protected override async Task OnInitializedAsync()
     {
-       places = await Http.GetFromJsonAsync<Place[]>("Places");
+        places = await cache.GetPlaces();
     }
 
+  
 }

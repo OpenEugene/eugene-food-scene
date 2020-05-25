@@ -12,10 +12,15 @@ using EugeneFoodScene.Data;
 
 namespace EugeneFoodScene.Services
 {
+    /// <summary>
+    /// a bruit force airtable data caching service
+    /// </summary>
     public class AirTableService
     {
         private readonly string baseId;
         private readonly string appKey;
+
+        private IEnumerable<Place> _placesPop;  // the higest level opoulated places list.
 
         private List<AirtableRecord<Place>> _places;
         private List<AirtableRecord<Cuisine>> _cuisines;
@@ -29,6 +34,11 @@ namespace EugeneFoodScene.Services
 
         public async Task<IEnumerable<Place>> GetPlacesPopulatedAsync()
         {
+
+            if (_placesPop != null)
+            {
+                return _placesPop;
+            }
             var records = await GetPlacesAsync();
             var cuisines = await GetCuisinesAsync();
             var places = (from r in records select r.Fields).ToList();
@@ -62,12 +72,20 @@ namespace EugeneFoodScene.Services
                     place.DeliveryOptionsDisplay = String.Join(",", place.DeliveryServiceList.Select(c => c.Name));
                 }
             }
-            return places.ToArray();
+            _placesPop = places.ToArray();
+            return _placesPop;
 
+        }
+
+        public void ResetAll()
+        {
+            ResetPlaces();
+            ResetCuisines();
         }
 
         public void ResetPlaces()
         {
+            _placesPop = null;
             _places = null;
         }
 
@@ -116,6 +134,10 @@ namespace EugeneFoodScene.Services
 
                     if (response.Success)
                     {
+                        foreach (var item in response.Records)
+                        {
+                            item.Fields.Id = item.Id;
+                        }
                         _places.AddRange(response.Records);
                         offset = response.Offset;
                     }
