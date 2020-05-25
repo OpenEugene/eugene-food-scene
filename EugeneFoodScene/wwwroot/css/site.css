@@ -26,17 +26,60 @@ app {
     align-items: center;
 }
 
+/* Header */
 .header { 
-    display: flex;
-    justify-content: center;
-    align-items: center;  
+    display: block;
     background-color: #d0b02e;   
 }
 
-    .header img {
-        max-width: 100%; 
-        display: block;
-        margin: 0 auto;
+.header img {
+    max-width: 100%; 
+    display: block;
+    margin: 0 auto;
+}
+
+/* Top Search Bar Row */
+.header .ui-panel {
+    padding: 1rem 3rem;
+}
+    
+    .header .ui-panel-content {
+        display: flex;
+        align-items: center;
+        margin: 0;
+    }
+    
+    .header .ui-panel-content img {
+        margin: 0;
+        margin-right: 3rem;
+    }
+
+    .header .ui-panel-content i {
+        margin-right: 1.5rem;
+        color: #3a474d;
+    }
+
+    .header .ui-panel-content .textbox {
+        min-width: 20%;
+        border: 1px solid #3a474d;
+        border-right: none;
+        border-radius: 4px 0 0 4px;
+    }
+
+    .header .ui-panel-content .textbox:focus {
+        outline: none;
+        border: 3px solid #479cc8;
+        border-right: none;
+    }
+
+    .header .ui-panel-content .ui-button {
+        min-width: 10%;
+        border-radius: 0 4px 4px 0;
+        background-color: #d0b02e;
+    }
+
+    .header .ui-panel-content .ui-button:hover {
+        background-color: #479cc8;
     }
 
 .menu {
@@ -163,7 +206,7 @@ app {
     top: 0.5rem;
 }
 
-/* Restaurant card styles */
+/* Restaurant Cards */
 .ui-g {
     display: flex;
 }
@@ -201,7 +244,7 @@ app {
 }
 
 
-
+/* Collapse Menu */
 @media (max-width: 767.98px) {
     .menu {
         flex-direction: column;
@@ -268,80 +311,73 @@ app {
     }
 }
 
-/* Jam Session day 2 - New Sidebar and header components! */
-
-/* Header */
-.header {
+/* Filter Section */
+.ui-selectbutton {
     display: block;
+    margin-bottom: .5rem;
 }
 
-.header .ui-panel {
-    padding: 1rem 3rem;
+.ui-chkbox:focus {
+    outline: none;
+    border: 3px solid #479cc8;
+    border-radius: 4px;
 }
 
-.header .ui-panel-content {
-    display: flex;
-    align-items: center;
-    margin: 0;
+.ui-buttonset-4 .ui-button{
+    display: inline-block;
+    width: 25%;
+    padding: 0;
 }
 
-    .header .ui-panel-content img {
-        margin: 0;
-        margin-right: 3rem;
+.ui-selectbutton .ui-button .ui-button-text {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.ui-buttonset-4 + span {
+    display: block;
+    height: 2rem;
+}
+
+/* Filter Collapse */
+@media(max-width: 1300px) {
+    .d-flex {
+        flex-direction: column;
     }
 
-    .header .ui-panel-content i {
-        margin-right: 1.5rem;
-        color: #3a474d;
+    .d-flex .col-3 {
+        max-width: 100%;
     }
 
-    .header .ui-panel-content .textbox {
-        width: 20%;
-        border: 1px solid #3a474d;
-        border-right: none;
-        border-radius: 4px 0 0 4px;
+    .d-flex .col-3 .ui-fieldset-content {
+        display: flex;
+        justify-content: space-around;
     }
 
-    .header .ui-panel-content .textbox:focus {
-        outline: none;
-        border: 3px solid #479cc8;
-    }
-
-    .header .ui-panel-content .ui-button {
-        width: 10%;
-        border-radius: 0 4px 4px 0;
-        background-color: #d0b02e;
-    }
-
-    .header .ui-panel-content .ui-button:hover {
-        background-color: #479cc8;
-    }
-
-    /* Filter */
     .ui-selectbutton {
-        display: block;
-        margin-bottom: .5rem;
+    display: block;
+    margin-bottom: .5rem;
     }
 
-    .ui-chkbox:focus {
-        outline: none;
-        border: 3px solid #479cc8;
-        border-radius: 4px;
+    .col-3 .ui-buttonset-2, 
+    .col-3 .ui-buttonset-4 {
+        display: block;
     }
 
     .ui-buttonset-4 .ui-button{
-        display: inline-block;
-        width: 25%;
-        padding: 0;
-    }
-
-    .ui-selectbutton .ui-button .ui-button-text {
-        display: inline-block;
-        width: 100%;
-        text-align: center;
+        min-width: 5rem;
     }
 
     .ui-buttonset-4 + span {
         display: block;
         height: 2rem;
     }
+}  
+
+@media(max-width: 1050px) {
+    .d-flex .col-3 .ui-fieldset-content {
+        flex-direction: column;
+        align-items: center;
+    }
+}
