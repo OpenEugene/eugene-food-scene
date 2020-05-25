@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HtmlSanitizer" Version="5.0.319" />
+    <PackageReference Include="Markdig" Version="0.20.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Build" Version="3.2.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="3.2.0" PrivateAssets="all" />

@@ -14,8 +14,8 @@ namespace EugeneFoodScene.Client.Services
         private List<Place> _places;
         private HttpClient _http;
 
-        public PlacesCache(Uri _baseAddress) {
-            _http = new HttpClient { BaseAddress = _baseAddress };
+        public PlacesCache(HttpClient http) {
+            _http = http; 
         }
 
         public async Task<List<Place>> GetPlaces()

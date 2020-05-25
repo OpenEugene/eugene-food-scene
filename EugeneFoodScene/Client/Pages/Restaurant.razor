@@ -16,13 +16,18 @@ else
             </span>
         </HeaderTemplate>
         <ChildContent>
-            <RadzenDataList WrapItems="true" AllowPaging="true" Data="@place.CuisineList" TItem="Cuisine">
-                <Template Context="cuisine">
-                    <RadzenLabel Text="@cuisine.Name"></RadzenLabel>
-                </Template>
-            </RadzenDataList>
+
+            <RadzenFieldset Text="Cuisine">
+                <RadzenDataList WrapItems="true" AllowPaging="true" Data="@place.CuisineList" TItem="Cuisine">
+                    <Template Context="cuisine">
+                        <RadzenLabel Text="@cuisine.Name"></RadzenLabel>
+                    </Template>
+                </RadzenDataList>
+                
+            </RadzenFieldset>
             <RadzenButton Text="Phone" Click="@PhoneClick"></RadzenButton>
             <RadzenButton Text="Website" Click="@WebClick"></RadzenButton>
+
         </ChildContent>
     </RadzenFieldset>
 }
