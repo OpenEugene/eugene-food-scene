@@ -1,0 +1,80 @@
+﻿@page "/restaurants"
+@page "/"
+
+@using AirtableApiClient
+@using EugeneFoodScene.Data
+
+@inject HttpClient Http
+
+@if (places == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+
+    <div class="d-flex">
+        <RadzenFieldset Text="Filter" class="col-3">
+
+            <RadzenSelectBar TValue="int" class="flex-row">
+                <Items>
+                    <RadzenSelectBarItem Text="Delivery" Value="1" />
+                    <RadzenSelectBarItem Text="Pickup" Value="2" />
+                </Items>
+            </RadzenSelectBar>
+            <span>
+                <RadzenCheckBox TValue="bool" />
+                <RadzenLabel Text="Price v" Style="margin-left: 5px;margin-bottom: 20px" />
+            </span>
+            <RadzenSelectBar TValue="int" class="flex-row">
+                <Items>
+                    <RadzenSelectBarItem Text="$" Value="1" />
+                    <RadzenSelectBarItem Text="$$" Value="2" />
+                    <RadzenSelectBarItem Text="$$$" Value="3" />
+                    <RadzenSelectBarItem Text="$$$$" Value="4" />
+                </Items>
+            </RadzenSelectBar>
+            <span>
+                <RadzenCheckBox TValue="bool" />
+                <RadzenLabel Text="Location" Style="margin-left: 5px;margin-bottom: 20px" />
+            </span>
+            <span>
+                <RadzenCheckBox TValue="bool" />
+                <RadzenLabel Text="Curbside" Style="margin-left: 5px;margin-bottom: 20px" />
+            </span>
+        </RadzenFieldset>
+        <RadzenFieldset Text="Resturants">
+            <RadzenDataList WrapItems="true" AllowPaging="true" Data="@places" TItem="Place">
+                <Template Context="place">
+                    <RadzenCard>
+
+                        <div>Name:</div>
+                        <b><RadzenLink Text="@place.Name" Path="@place.URL" target="_blank"></RadzenLink></b>
+                        <div>Phone:</div>
+                        <b>@place.Phone</b>
+                        <div>Cuisines:</div>
+                        <b>@place.CuisineDisplay</b>
+                        <div>"Delivery Services:</div>
+                        <b>@place.DeliveryOptionsDisplay</b>
+
+                        <div>"Address:</div>
+                        <b>@place.Address</b>
+
+                    </RadzenCard>
+                </Template>
+            </RadzenDataList>
+        </RadzenFieldset>
+    </div>
+
+}
+
+@code {
+    private Place[] places;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+       places = await Http.GetFromJsonAsync<Place[]>("Places");
+    }
+
+}
