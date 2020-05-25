@@ -26,6 +26,77 @@ app {
     align-items: center;
 }
 
+/* Header */
+.header {
+    display: block;
+    background-color: #d0b02e;
+}
+
+    .header img {
+        max-width: 100%;
+        display: block;
+        margin: 0 auto;
+    }
+
+    /* Top Search Bar Row */
+    .header .ui-panel {
+        padding: 1rem 3rem;
+    }
+
+    .header .ui-panel-content {
+        display: flex;
+        align-items: center;
+        margin: 0;
+    }
+
+        .header .ui-panel-content img {
+            margin: 0;
+            margin-right: 3rem;
+        }
+
+        .header .ui-panel-content i {
+            margin-right: 1.5rem;
+            color: #3a474d;
+        }
+
+        .header .ui-panel-content .textbox {
+            min-width: 20%;
+            border: 1px solid #3a474d;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+
+            .header .ui-panel-content .textbox:focus {
+                outline: none;
+                border: 3px solid #479cc8;
+                border-right: none;
+            }
+
+        .header .ui-panel-content .ui-button {
+            min-width: 10%;
+            border-radius: 0 4px 4px 0;
+            background-color: #d0b02e;
+        }
+
+            .header .ui-panel-content .ui-button:hover {
+                background-color: #479cc8;
+            }
+
+.menu {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.navigation-item-link:hover {
+    cursor: pointer;
+}
+
+.card {
+    text-align: center;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+}
+
 .main {
     flex: 1;
 }
@@ -41,10 +112,10 @@ app {
             margin-left: 1.5rem;
         }
 
-.main .top-row a:first-child {
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+        .main .top-row a:first-child {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
 .sidebar {
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
@@ -129,14 +200,74 @@ app {
     z-index: 1000;
 }
 
-#blazor-error-ui .dismiss {
-    cursor: pointer;
-    position: absolute;
-    right: 0.75rem;
-    top: 0.5rem;
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+/* Restaurant Cards */
+.ui-g {
+    display: flex;
 }
 
+    .ui-g .card {
+        flex: 1 2 0;
+        min-width: 20rem;
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        border: 3px solid #d0b02e;
+        border-radius: 6%;
+    }
+
+    .ui-g .card {
+        display: flex;
+        flex-direction: column;
+        min-height: 19rem;
+    }
+
+        .ui-g .card > div,
+        .ui-g .card > b {
+            flex: 1;
+        }
+
+            .ui-g .card > div:first-child {
+                display: none;
+            }
+
+        .ui-g .card b a {
+            color: #479cc8;
+            font-size: 1.2rem;
+        }
+
+            .ui-g .card b a:hover {
+                color: #d0b02e;
+            }
+
+
+/* Collapse Menu */
 @media (max-width: 767.98px) {
+    .menu {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .navigation-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .navigation-item:not(:last-child) {
+            border-bottom: 1px dotted lightgray;
+        }
+
+    .navigation-item-wrapper {
+        min-width: 10rem;
+        text-align: left;
+    }
+
     .main .top-row:not(.auth) {
         display: none;
     }
@@ -167,11 +298,6 @@ app {
         top: 0;
     }
 
-    .main > div {
-        padding-left: 2rem !important;
-        padding-right: 1.5rem !important;
-    }
-
     .navbar-toggler {
         display: none;
     }
@@ -180,4 +306,81 @@ app {
         /* Never collapse the sidebar for wide screens */
         display: block;
     }
+
+    .header {
+        background-image: url("/images/header-back.png");
+        background-repeat: repeat-x;
+    }
 }
+
+/* Filter Section */
+.ui-selectbutton {
+    display: block;
+    margin-bottom: .5rem;
+}
+
+.ui-chkbox:focus {
+    outline: none;
+    border: 3px solid #479cc8;
+    border-radius: 4px;
+}
+
+.ui-buttonset-4 .ui-button {
+    display: inline-block;
+    width: 25%;
+    padding: 0;
+}
+
+.ui-selectbutton .ui-button .ui-button-text {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.ui-buttonset-4 + span {
+    display: block;
+    height: 2rem;
+}
+
+/* Filter Collapse */
+@media(max-width: 1300px) {
+    .d-flex {
+        flex-direction: column;
+    }
+
+        .d-flex .col-3 {
+            max-width: 100%;
+        }
+
+            .d-flex .col-3 .ui-fieldset-content {
+                display: flex;
+                justify-content: space-around;
+            }
+
+    .ui-selectbutton {
+        display: block;
+        margin-bottom: .5rem;
+    }
+
+    .col-3 .ui-buttonset-2,
+    .col-3 .ui-buttonset-4 {
+        display: block;
+    }
+
+    .ui-buttonset-4 .ui-button {
+        min-width: 5rem;
+    }
+
+    .ui-buttonset-4 + span {
+        display: block;
+        height: 2rem;
+    }
+}
+
+@media(max-width: 1050px) {
+    .d-flex .col-3 .ui-fieldset-content {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
