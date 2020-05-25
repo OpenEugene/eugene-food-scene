@@ -27,8 +27,6 @@ namespace EugeneFoodScene.Server.Controllers
         public PlacesController(ILogger<PlacesController> logger)
         {
             this.logger = logger;
-            //baseId = configuration["AirTable:BaseId"];
-            //appKey = configuration["AirTable:AppKey"];
         }
 
         [HttpGet]
