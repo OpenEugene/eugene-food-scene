@@ -29,6 +29,7 @@ namespace EugeneFoodScene.Data
         public string Phone { get; set; }
         public string URL { get; set; }
         public string Address { get; set; }
+        public string Specials { get; set; }
         public string Notes { get; set; }
         public List<OrderDeliveryLink> OrderDeliveryLinks { get; set; }
         public List<AirtableAttachment> Menu { get; set; }
@@ -61,6 +62,18 @@ namespace EugeneFoodScene.Data
         public string Name { get; set; }
         public List<string> Places { get; set; }
         public List<string> OrderDeliveryLinks { get; set; }
+
+        public string ImageName { 
+            get {
+                switch (Name)
+                {
+                    
+                    default:
+                       return Name.ToLower();
+                }
+            } 
+        }
+
     }
 
     public class OrderDeliveryLink
