@@ -48,16 +48,14 @@ else
                 <Template Context="place">
                     <RadzenCard>
 
-                        <div>Name:</div>
-                        <b><RadzenLink Text="@place.Name"Path="@($"restaurant/{place.Id}")"></RadzenLink></b>
-                        <div>Phone:</div>
+                        <b><RadzenLink Text="@place.Name" Path="@($"restaurant/{place.Id}")"></RadzenLink></b>
+                        <RadzenLabel Text="Phone:"></RadzenLabel>
                         <b>@place.Phone</b>
-                        <div>Cuisines:</div>
+                        <RadzenLabel Text="Cuisines:"></RadzenLabel>
                         <b>@place.CuisineDisplay</b>
-                        <div>"Delivery Services:</div>
+                        <RadzenLabel Text="Delivery Services:"></RadzenLabel>
                         <b>@place.DeliveryOptionsDisplay</b>
-
-                        <div>"Address:</div>
+                        <RadzenLabel Text="Address:"></RadzenLabel>
                         <b>@place.Address</b>
 
                     </RadzenCard>

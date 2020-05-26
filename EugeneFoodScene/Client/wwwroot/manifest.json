@@ -1,13 +1,13 @@
 {
-  "name": "EugeneFoodScene",
-  "short_name": "EugeneFoodScene",
+  "name": "Eugene Food Scene",
+  "short_name": "EugFoodS",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#03173d",
   "icons": [
     {
-      "src": "icon-512.png",
+      "src": "/images/header-logo.png",
       "type": "image/png",
       "sizes": "512x512"
     }

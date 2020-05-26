@@ -65,12 +65,7 @@ namespace EugeneFoodScene.Data
 
         public string ImageName { 
             get {
-                switch (Name)
-                {
-                    
-                    default:
-                       return Name.ToLower();
-                }
+                return Name.Replace(" '","").ToLower().Trim();
             } 
         }
 

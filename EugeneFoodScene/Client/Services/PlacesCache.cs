@@ -31,5 +31,11 @@ namespace EugeneFoodScene.Client.Services
             return place;
         }
 
+        public async void SearchAsync(string words) {
+            var places = await GetPlaces();
+            places = places.Where(p => p.Name.Contains(words)).ToList();
+
+        }
+
     }
 }
