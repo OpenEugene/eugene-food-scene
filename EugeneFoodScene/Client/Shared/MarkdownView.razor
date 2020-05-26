@@ -30,7 +30,8 @@
     {
         if (!string.IsNullOrWhiteSpace(value))
         {
-            string readValue = await http.GetStringAsync(@"markdown/{value}");
+            string fileName = $"/markdown/{value}";
+            string readValue = await http.GetStringAsync(fileName);
 
             // Convert markdown string to HTML
             var html = Markdig.Markdown.ToHtml(readValue,
