@@ -61,7 +61,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         place = await cache.GetPlace(Id);
-    }
+    }   
 
     public void WebClick(EventArgs e)
     {
@@ -70,7 +70,7 @@ else
 
     public void PhoneClick(EventArgs e)
     {
-        JSRuntime.InvokeAsync<object>("open", $"phone://{place.Phone}", "_blank");
+        JSRuntime.InvokeAsync<object>("open", $"tel:{place.Phone}", "_blank");
     }
 
     public void MenuClick(EventArgs e)

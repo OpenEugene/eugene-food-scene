@@ -6,7 +6,7 @@
 
 @inject PlacesCache cache
 
-@if (places == null)
+@if (cache.Places == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -44,7 +44,7 @@ else
             </span>
         </RadzenFieldset>
         <RadzenFieldset Text="Resturants">
-            <RadzenDataList WrapItems="true" AllowPaging="true" Data="@places" TItem="Place">
+            <RadzenDataList WrapItems="true" AllowPaging="true" Data="@cache.Places" TItem="Place">
                 <Template Context="place">
                     <RadzenCard>
 
@@ -67,13 +67,16 @@ else
 }
 
 @code {
-    private List<Place> places;
-
-
+   
     protected override async Task OnInitializedAsync()
     {
-        places = await cache.GetPlaces();
+        await cache.GetPlaces();
+        cache.CacheUpdated += OnCacheUpdated;
     }
 
-  
+    public void OnCacheUpdated(object sender, EventArgs e)
+    {
+        this.StateHasChanged();
+    }
+
 }

@@ -3,8 +3,8 @@
 <RadzenPanel class="flex-column">
     <RadzenImage Path="images/header-logo.png" Style="height:3rem" />
     <RadzenIcon Icon="room" />
-    <RadzenTextBox Placeholder="Search..." Value="@words" Disabled="true" />
-    <RadzenButton Text="Search" Click="Search" Disabled="true" />
+    <RadzenTextBox Placeholder="Search..." @bind-Value="@words" />
+    <RadzenButton Text="Search" Click="Search" />
 </RadzenPanel>
 
 
@@ -14,8 +14,6 @@
 
     public async void Search(EventArgs e)
     {
-        cache.SearchAsync(words);
-        StateHasChanged();
-
+        cache.Search(words);
     }
 }
