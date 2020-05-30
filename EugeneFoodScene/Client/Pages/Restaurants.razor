@@ -3,10 +3,11 @@
 
 @using AirtableApiClient
 @using EugeneFoodScene.Data
+@implements IDisposable
 
-@inject PlacesCache cache
+@inject ClientCache cache
 
-@if (cache.Places == null)
+@if (cache.FoundPlaces == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -44,7 +45,7 @@ else
             </span>
         </RadzenFieldset>
         <RadzenFieldset Text="Resturants">
-            <RadzenDataList WrapItems="true" AllowPaging="true" Data="@cache.Places" TItem="Place">
+            <RadzenDataList WrapItems="true" AllowPaging="true" Data="@cache.FoundPlaces" TItem="Place">
                 <Template Context="place">
                     <RadzenCard>
 
@@ -67,16 +68,29 @@ else
 }
 
 @code {
-   
+
     protected override async Task OnInitializedAsync()
     {
-        await cache.GetPlaces();
-        cache.CacheUpdated += OnCacheUpdated;
+        await cache.GetFoundPlaces();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            cache.CacheUpdated += OnCacheUpdated;
+        }
+
     }
 
     public void OnCacheUpdated(object sender, EventArgs e)
     {
         this.StateHasChanged();
     }
+
+    public void Dispose() {
+        cache.CacheUpdated -= OnCacheUpdated;
+    }
+
 
 }

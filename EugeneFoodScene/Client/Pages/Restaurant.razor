@@ -1,5 +1,5 @@
 ﻿@page "/restaurant/{Id}"
-@inject PlacesCache cache
+@inject ClientCache cache
 @inject NavigationManager navManager
 @inject IJSRuntime JSRuntime;
 
@@ -61,7 +61,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         place = await cache.GetPlace(Id);
-    }   
+    }
 
     public void WebClick(EventArgs e)
     {

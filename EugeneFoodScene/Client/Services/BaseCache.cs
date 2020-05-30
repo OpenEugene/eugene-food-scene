@@ -11,37 +11,13 @@ using EugeneFoodScene.Data;
 
 namespace EugeneFoodScene.Client.Services
 {
-    public class PlacesCache : INotifyPropertyChanged
+    public abstract class BaseCache : INotifyPropertyChanged
     {
-        private List<Place> _places = null;
-        private HttpClient _http;
 
-        public  PlacesCache(HttpClient http) {
-            _http = http;
-        }
+        protected HttpClient Http;
 
-        public List<Place> Places
-        {
-            get => _places;
-            set => SetField(ref _places, value);
-        }
-
-        public async Task<List<Place>> GetPlaces()
-        {
-            if (_places == null) _places = await _http.GetFromJsonAsync<List<Place>>("Places");
-            return _places;
-        }
-
-        public async Task<Place> GetPlace(string Id)
-        {
-            var place = Places.SingleOrDefault(p => p.Id == Id); ;
-            return place;
-        }
-
-        public void Search(string words) {
-            var filtered = Places.Where(p => p.Name.Contains(words)).ToList();
-            Places = filtered;
-            OnCacheUpdated();
+        public BaseCache(HttpClient http) {
+            Http = http;
         }
 
         public event EventHandler CacheUpdated;

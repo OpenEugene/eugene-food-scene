@@ -1,4 +1,4 @@
-﻿@inject PlacesCache cache
+﻿@inject ClientCache cache
 
 <RadzenPanel class="flex-column">
     <RadzenImage Path="images/header-logo.png" Style="height:3rem" />
@@ -14,6 +14,6 @@
 
     public async void Search(EventArgs e)
     {
-        cache.Search(words);
+        await cache.Search(words);
     }
 }
