@@ -16,36 +16,40 @@ else
             </span>
         </HeaderTemplate>
         <ChildContent>
-            <div class="d-flex">
-                <RadzenPanel class="flex-column" style="flex:50%">
-                    <RadzenFieldset Text="Cuisine">
-                        <RadzenDataList WrapItems="true" AllowPaging="true" Data="@place.CuisineList" TItem="Cuisine">
-                            <Template Context="cuisine">
-                                <RadzenLabel Text="@cuisine.Name"></RadzenLabel>
-                            </Template>
-                        </RadzenDataList>
-                    </RadzenFieldset>
-                    <RadzenButton Text="Phone" Click="@PhoneClick"></RadzenButton>
-                    <RadzenButton Text="Website" Click="@WebClick"></RadzenButton>
-                    <RadzenButton Text="Menu" Click="@MenuClick"></RadzenButton>
-                    <RadzenFieldset Text="Specials">
-                        <RadzenTextArea Value="@place.Specials"/>
-                    </RadzenFieldset>
-                </RadzenPanel>
-                <div style="flex:50%">
-                    <RadzenImage Path="images/mappin.png"/>
+            <div class="contain">
+                <div class="d-flex restaurant-flex">
+                    <RadzenPanel class="flex-column stat-display">
+                        <RadzenFieldset Text="Cuisine">
+                            <RadzenDataList WrapItems="true" AllowPaging="true" Data="@place.CuisineList" TItem="Cuisine">
+                                <Template Context="cuisine">
+                                    <RadzenLabel Text="@cuisine.Name"></RadzenLabel>
+                                </Template>
+                            </RadzenDataList>
+                        </RadzenFieldset>
+                        <div class="stat-buttons">
+                            <RadzenButton Text="Phone" Click="@PhoneClick"></RadzenButton>
+                            <RadzenButton Text="Website" Click="@WebClick"></RadzenButton>
+                            <RadzenButton Text="Menu" Click="@MenuClick"></RadzenButton>
+                        </div>
+                        <RadzenFieldset Text="Specials">
+                            <RadzenTextArea Value="@place.Specials" class="special"/>
+                            <RadzenTextArea Value="@place.Specials" class="special"/>
+                        </RadzenFieldset>
+                    </RadzenPanel>
+                    <div class="map-display">
+                        <RadzenImage Path="images/mappin.png"/>
+                    </div>
                 </div>
+                <RadzenFieldset Text="Ordering & Delivery Options">
+                    <RadzenDataList WrapItems="true" AllowPaging="true" Data="@place.DeliveryServiceList" TItem="DeliveryService">
+                        <Template Context="service">
+                            <RadzenPanel>
+                                <RadzenImage Path="@($"images/{service.ImageName}.png")"/>
+                            </RadzenPanel>
+                        </Template>
+                    </RadzenDataList>
+                </RadzenFieldset>
             </div>
-            <RadzenFieldset Text="Ordering & Delivery Options">
-                <RadzenDataList WrapItems="true" AllowPaging="true" Data="@place.DeliveryServiceList" TItem="DeliveryService">
-                    <Template Context="service">
-                        <RadzenPanel>
-                            <RadzenImage Path="@($"images/{service.ImageName}.png")" Style="max-width:20rem" />
-                        </RadzenPanel>
-                    </Template>
-                </RadzenDataList>
-
-            </RadzenFieldset>
         </ChildContent>
     </RadzenFieldset>
 }

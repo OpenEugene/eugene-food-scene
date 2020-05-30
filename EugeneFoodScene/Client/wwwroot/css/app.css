@@ -1,7 +1,6 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
-    display: none;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -208,7 +207,38 @@ app {
         top: 0.5rem;
     }
 
-/* Restaurant Cards */
+
+/* Restaurants: Filter Section */
+.ui-selectbutton {
+    display: block;
+    margin-bottom: .5rem;
+}
+
+.ui-chkbox:focus  {
+    outline: none;
+    border: 3px solid #479cc8;
+    border-radius: 4px;
+}
+
+.ui-buttonset-4 .ui-button {
+    display: inline-block;
+    width: 25%;
+    padding: 0;
+}
+
+.ui-selectbutton .ui-button .ui-button-text {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.ui-buttonset-4 + span {
+    display: block;
+    height: 2rem;
+}
+
+
+/* Restaurants: Restaurant Cards */
 .ui-g {
     display: flex; 
 }
@@ -222,7 +252,7 @@ app {
         box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.2);
         overflow: hidden;
         border: 3px solid #d0b02e;
-        border-radius: 6%;
+        border-radius: 20px;
     }
 
         .ui-g .card > div,
@@ -244,8 +274,167 @@ app {
             }
 
 
-/* Collapse Menu */
+/* Restaurant Hero Pages */
+.contain {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.contain .d-flex {
+    margin-bottom: 2rem;
+    justify-content: space-between;
+}
+
+/* Hero Pages: Stats Section */
+.stat-display {
+    flex: 2;
+}
+
+    /* stat buttons */
+    .stat-buttons {
+        margin: 1rem 0;
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+        .stat-buttons button {
+            border-radius: 20px;
+            background-color: #479cc8;
+        }
+
+    /* stat Specials */
+    .special {
+        display: block;
+        height: 6rem;
+        width: 100%;
+        resize: none;
+        border-radius: 20px;
+        border: 1px solid lightgray;
+    }
+    
+        .special:not(:last-child) {
+            margin-bottom: 2rem;
+        }
+    
+        .special:focus,
+        .special:hover {
+            outline: none;
+            border: 3px solid #479cc8;
+        }
+
+/* Hero Pages: Map Section */
+.map-display {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .map-display img {
+        min-width: 20%;
+    }
+
+/* Hero Pages: Delivery Options */
+.contain .ui-g .ui-panel {
+    border: 3px solid #d0b02e;
+    border-radius: 20px;
+    max-width: 100%;
+}
+
+    .contain .ui-g .ui-panel-content-wrapper {
+        height: 100%;
+    }
+
+        .contain .ui-g .ui-panel-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            margin: 0;
+        }
+
+        .contain .ui-g .ui-panel-content img {
+            max-width: 100%;
+            max-height: 6rem;
+        }
+
+
+/* \\\\\    MEDIA QUERIES   ///// */
+
+/* Collapse Restaurant Filter Section */
+@media(max-width: 1300px) {
+    .home-flex {
+        flex-direction: column;
+    }
+
+        .home-flex .col-3 {
+            max-width: 100%;
+        }
+
+            .home-flex .col-3 .ui-fieldset-content {
+                display: flex;
+                justify-content: space-around;
+            }
+
+    .ui-selectbutton {
+        display: block;
+        margin-bottom: .5rem;
+    }
+
+    .col-3 .ui-buttonset-2,
+    .col-3 .ui-buttonset-4 {
+        display: block;
+    }
+
+    .ui-buttonset-4 .ui-button {
+        min-width: 5rem;
+    }
+
+    .ui-buttonset-4 + span {
+        display: block;
+        height: 2rem;
+    }
+
+    /* Stack Restaurant Hero Pages */
+    .stat-display,
+    .map-display {
+        flex: 1;
+        margin-right: 0;
+    }
+
+    .restaurant-flex {
+        flex-direction: column;
+    }
+
+    .stat-buttons button{
+        width: 25%;
+    }
+
+    .map-display {
+        margin-top: 2rem;
+    }
+
+        .map-display img {
+            width: 100%
+        }
+}
+
+@media(max-width: 1050px) {
+    /* Restaurants */
+    .d-flex .col-3 .ui-fieldset-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Restaurant Hero Pages */
+    .stat-buttons button{
+        width: 30%;
+    }
+}
+
+
 @media (max-width: 767.98px) {
+    /* Collapse Navigation Menu */
     .menu {
         flex-direction: column;
         text-align: center;
@@ -276,6 +465,17 @@ app {
 
     .main .top-row a, .main .top-row .btn-link {
         margin-left: 0;
+    }
+
+
+    /* Restaurant Hero Pages: Stack Buttons */
+    .stat-buttons {
+        flex-direction: column;
+    }
+    
+    .stat-buttons button {
+        width: 80%;
+        margin: .5rem auto;
     }
 }
 
@@ -310,75 +510,3 @@ app {
         background-repeat: repeat-x;
     }
 }
-
-/* Filter Section */
-.ui-selectbutton {
-    display: block;
-    margin-bottom: .5rem;
-}
-
-.ui-chkbox:focus {
-    outline: none;
-    border: 3px solid #479cc8;
-    border-radius: 4px;
-}
-
-.ui-buttonset-4 .ui-button {
-    display: inline-block;
-    width: 25%;
-    padding: 0;
-}
-
-.ui-selectbutton .ui-button .ui-button-text {
-    display: inline-block;
-    width: 100%;
-    text-align: center;
-}
-
-.ui-buttonset-4 + span {
-    display: block;
-    height: 2rem;
-}
-
-/* Filter Collapse */
-@media(max-width: 1300px) {
-    .d-flex {
-        flex-direction: column;
-    }
-
-        .d-flex .col-3 {
-            max-width: 100%;
-        }
-
-            .d-flex .col-3 .ui-fieldset-content {
-                display: flex;
-                justify-content: space-around;
-            }
-
-    .ui-selectbutton {
-        display: block;
-        margin-bottom: .5rem;
-    }
-
-    .col-3 .ui-buttonset-2,
-    .col-3 .ui-buttonset-4 {
-        display: block;
-    }
-
-    .ui-buttonset-4 .ui-button {
-        min-width: 5rem;
-    }
-
-    .ui-buttonset-4 + span {
-        display: block;
-        height: 2rem;
-    }
-}
-
-@media(max-width: 1050px) {
-    .d-flex .col-3 .ui-fieldset-content {
-        flex-direction: column;
-        align-items: center;
-    }
-}
-
