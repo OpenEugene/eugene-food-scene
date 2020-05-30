@@ -21,8 +21,9 @@ namespace EugeneFoodScene.Services
         private readonly string appKey;
 
         private IEnumerable<Place> _placesPop;  // the higest level opoulated places list.
-
+  
         private List<AirtableRecord<Place>> _places;
+        private List<AirtableRecord<Category>> _categories;
         private List<AirtableRecord<Cuisine>> _cuisines;
         private List<AirtableRecord<DeliveryService>> _deliveryServices;
 
@@ -30,6 +31,22 @@ namespace EugeneFoodScene.Services
         {
             baseId = configuration["AirTable:BaseId"];
             appKey = configuration["AirTable:AppKey"];
+        }
+
+        public async Task<IEnumerable<Category>> GetCatagories()
+        {
+            await GetCategoriesAsync();
+            
+            var list = from c in _categories select c.Fields;
+            return list.ToArray();
+        }
+
+        public async Task<IEnumerable<Cuisine>> GetCuisines()
+        {
+            await GetCuisinesAsync();
+
+            var list = from c in _cuisines select c.Fields;
+            return list.ToArray();
         }
 
         public async Task<IEnumerable<Place>> GetPlacesPopulatedAsync()
@@ -134,10 +151,8 @@ namespace EugeneFoodScene.Services
 
                     if (response.Success)
                     {
-                        foreach (var item in response.Records)
-                        {
-                            item.Fields.Id = item.Id;
-                        }
+                        PopulateIds(response.Records);
+                       
                         _places.AddRange(response.Records);
                         offset = response.Offset;
                     }
@@ -157,6 +172,14 @@ namespace EugeneFoodScene.Services
                    
             }
             return _places;
+        }
+
+        private void PopulateIds<T>(IEnumerable<AirtableRecord<T>> responseRecords) where T :IHasId
+        {
+            foreach (var item in responseRecords)
+            {
+                item.Fields.Id = item.Id;
+            }
         }
 
         public async Task<List<AirtableRecord<Cuisine>>> GetCuisinesAsync()
@@ -179,6 +202,7 @@ namespace EugeneFoodScene.Services
 
                     if (response.Success)
                     {
+                        PopulateIds(response.Records);
                         _cuisines.AddRange(response.Records);
                         offset = response.Offset;
                     }
@@ -198,6 +222,48 @@ namespace EugeneFoodScene.Services
 
             }
             return _cuisines;
+        }
+
+        public async Task<List<AirtableRecord<Category>>> GetCategoriesAsync()
+        {
+            // check the cache
+            if (_categories != null) return _categories;
+
+            _categories = new List<AirtableRecord<Category>>();
+            string offset = null;
+
+            using (AirtableBase airtableBase = new AirtableBase(appKey, baseId))
+            {
+                do
+                {
+
+                    Task<AirtableListRecordsResponse<Category>> task =
+                        airtableBase.ListRecords<Category>(tableName: "Categories", offset: offset);
+
+                    var response = await task;
+
+                    if (response.Success)
+                    {
+                        PopulateIds(response.Records);
+                        _categories.AddRange(response.Records);
+                        offset = response.Offset;
+                    }
+                    else if (response.AirtableApiError is AirtableApiException)
+                    {
+                        throw new Exception(response.AirtableApiError.ErrorMessage);
+                        break;
+                    }
+                    else
+                    {
+                        throw new Exception("Unknown error");
+                        break;
+                    }
+
+                } while (offset != null);
+
+
+            }
+            return _categories;
         }
 
         public async Task<List<AirtableRecord<DeliveryService>>> GetDeliveryServicesAsync()
@@ -220,6 +286,7 @@ namespace EugeneFoodScene.Services
 
                     if (response.Success)
                     {
+                        PopulateIds(response.Records);
                         _deliveryServices.AddRange(response.Records);
                         offset = response.Offset;
                     }

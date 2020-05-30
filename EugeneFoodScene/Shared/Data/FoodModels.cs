@@ -9,15 +9,23 @@ namespace EugeneFoodScene.Data
     // Places, Categories, Cuisines, Delivery Services, Order Delivery Links
 
     /// <summary>
+    /// interface for hoisting Airtable IDs into data objests
+    /// </summary>
+    public interface IHasId
+    {
+        public string Id { get; set; }
+    }
+
+    /// <summary>
     /// Name, Category, Phone, URL, Address, Notes, Order Delivery Links, Menu,
     /// </summary>
-    public class Place
+    public class Place : IHasId
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public List<String> Category { get; set; }
+        public List<string> Category { get; set; }
 
-        public List<String> Cuisines { get; set; }
+        public List<string> Cuisines { get; set; }
 
         public List<Cuisine> CuisineList { get; set; }
         public String CuisineDisplay { get; set; }
@@ -41,14 +49,14 @@ namespace EugeneFoodScene.Data
     /// <summary>
     /// Category, Places, 
     /// </summary>
-    public class Category
+    public class Category : IHasId
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public List<Place> Places { get; set; }
+        public List<string> Places { get; set; }
     }
 
-    public class Cuisine
+    public class Cuisine : IHasId
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -56,7 +64,7 @@ namespace EugeneFoodScene.Data
         public List<Place> PlacesList { get; set; }
     }
 
-    public class DeliveryService
+    public class DeliveryService : IHasId
     {
         public string Id { get; set; }
         public string Name { get; set; }

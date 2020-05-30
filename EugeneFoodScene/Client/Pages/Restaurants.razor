@@ -13,39 +13,48 @@
 }
 else
 {
-
     <div class="d-flex">
         <RadzenFieldset Text="Filter" class="col-3">
-
-            <RadzenSelectBar TValue="int" class="flex-row">
-                <Items>
-                    <RadzenSelectBarItem Text="Delivery" Value="1" />
-                    <RadzenSelectBarItem Text="Pickup" Value="2" />
-                </Items>
-            </RadzenSelectBar>
+            <RadzenFieldset Text="Delivery or Take-Out" >
+                <RadzenSelectBar TValue="int" class="flex-row">
+                    <Items>
+                        <RadzenSelectBarItem Text="Delivery" Value="1"/>
+                        <RadzenSelectBarItem Text="Pickup" Value="2"/>
+                    </Items>
+                </RadzenSelectBar>
+            </RadzenFieldset>
+            <RadzenFieldset Text="Cuisine" >
+                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true"  @bind-Value="@selectedCuisines"
+                                 Change="ChangeCuisine" >
+                    <Items>
+                        @foreach (var item in cache.Cuisines)
+                        {
+                            <RadzenSelectBarItem Text="@item.Name" Value="@item.Id"/>
+                        }
+                    </Items>
+                </RadzenSelectBar>
+            </RadzenFieldset>
+            <RadzenFieldset Text="Category" >
+                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true">
+                    <Items>
+                        @foreach (var item in cache.Categories)
+                        {
+                            <RadzenSelectBarItem Text="@item.Name" Value="@item.Id"/>
+                        }
+                    </Items>
+                </RadzenSelectBar>
+            </RadzenFieldset>
             <span>
-                <RadzenCheckBox TValue="bool" />
-                <RadzenLabel Text="Price v" Style="margin-left: 5px;margin-bottom: 20px" />
+                <RadzenCheckBox TValue="bool"/>
+                <RadzenLabel Text="Location" Style="margin-left: 5px; margin-bottom: 20px"/>
             </span>
-            <RadzenSelectBar TValue="int" class="flex-row">
-                <Items>
-                    <RadzenSelectBarItem Text="$" Value="1" />
-                    <RadzenSelectBarItem Text="$$" Value="2" />
-                    <RadzenSelectBarItem Text="$$$" Value="3" />
-                    <RadzenSelectBarItem Text="$$$$" Value="4" />
-                </Items>
-            </RadzenSelectBar>
             <span>
-                <RadzenCheckBox TValue="bool" />
-                <RadzenLabel Text="Location" Style="margin-left: 5px;margin-bottom: 20px" />
-            </span>
-            <span>
-                <RadzenCheckBox TValue="bool" />
-                <RadzenLabel Text="Curbside" Style="margin-left: 5px;margin-bottom: 20px" />
+                <RadzenCheckBox TValue="bool"/>
+                <RadzenLabel Text="Curbside" Style="margin-left: 5px; margin-bottom: 20px"/>
             </span>
         </RadzenFieldset>
         <RadzenFieldset Text="Resturants">
-            <RadzenDataList WrapItems="true" AllowPaging="true" Data="@cache.FoundPlaces" TItem="Place">
+            <RadzenDataList WrapItems="true" AllowPaging="true" Data="@cache.FoundPlaces" TItem="Place" PageSize="12" >
                 <Template Context="place">
                     <RadzenCard>
 
@@ -69,9 +78,14 @@ else
 
 @code {
 
+    IEnumerable<string> _categories = new string[] {};
+    IEnumerable<string> selectedCuisines = new string[] {};
+
     protected override async Task OnInitializedAsync()
     {
         await cache.GetFoundPlaces();
+        await cache.GetCategories();
+        await cache.GetCuisines();
     }
 
     protected override void OnAfterRender(bool firstRender)
@@ -92,5 +106,8 @@ else
         cache.CacheUpdated -= OnCacheUpdated;
     }
 
-
+    public async void ChangeCuisine()
+    {
+       await cache.FilterCuisine(selectedCuisines);
+    }
 }

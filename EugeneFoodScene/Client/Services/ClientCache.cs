@@ -15,6 +15,8 @@ namespace EugeneFoodScene.Client.Services
     {
         private List<Place> _allPlaces = null; 
         private List<Place> _foundPlaces = null;
+        private List<Category> _categories = null;
+        private List<Cuisine> _cuisines = null;
 
         public  ClientCache(HttpClient http) : base(http) {}
 
@@ -30,26 +32,46 @@ namespace EugeneFoodScene.Client.Services
             set => SetField(ref _foundPlaces, value);
         }
 
+        public List<Category> Categories
+        {
+            get => _categories;
+            set => SetField(ref _categories, value);
+        }
+        public List<Cuisine> Cuisines
+        {
+            get => _cuisines;
+            set => SetField(ref _cuisines, value);
+        }
+
         public async Task<List<Place>> GetAllPlaces()
         {
-            if (_allPlaces == null) _allPlaces = await Http.GetFromJsonAsync<List<Place>>("Places");
-            return _allPlaces;
+            return _allPlaces ??= await Http.GetFromJsonAsync<List<Place>>("Places");
         }
         public async Task<List<Place>> GetFoundPlaces()
         {
-            if (_foundPlaces == null) _foundPlaces = await GetAllPlaces();
-            return _foundPlaces;
+            return _foundPlaces ??= await GetAllPlaces();
         }
 
+        public async Task<List<Category>> GetCategories()
+        {
+            return _categories ??= await Http.GetFromJsonAsync<List<Category>>("Categories");
+        }
+
+        public async Task<List<Cuisine>> GetCuisines()
+        {
+            return _cuisines ??= await Http.GetFromJsonAsync<List<Cuisine>>("Cuisines");
+        }
         public async Task Clear()
         {
             _foundPlaces = null;
             _allPlaces = null;
+            _categories = null;
         }
         public async Task Reset()
         {
             await Clear();
             await GetAllPlaces();
+            await GetCategories();
         }
 
         public async Task<Place> GetPlace(string Id)
@@ -65,5 +87,18 @@ namespace EugeneFoodScene.Client.Services
             OnCacheUpdated();
         }
 
+        public async Task FilterCuisine(IEnumerable<string> selectedCuisines)
+        {
+            await GetAllPlaces();
+
+            var query = 
+                from p in AllPlaces
+                where p.Cuisines.Any(selectedCuisines.Contains)
+                select p;
+
+            FoundPlaces = query.ToList();
+
+            OnCacheUpdated();
+        }
     }
 }
