@@ -17,15 +17,16 @@ else
     <div class="d-flex home-flex">
         <RadzenFieldset Text="Filter" class="col-3">
             <RadzenFieldset Text="Delivery or Take-Out" >
-                <RadzenSelectBar TValue="int" class="flex-row">
+                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row"  @bind-Value="@_selectedMethods"  
+                                 Change="ChangeMethod" >
                     <Items>
-                        <RadzenSelectBarItem Text="Delivery" Value="1"/>
-                        <RadzenSelectBarItem Text="Pickup" Value="2"/>
+                        <RadzenSelectBarItem Text="Delivery" Value="@DeliveryMethods.Delivery"/>
+                        <RadzenSelectBarItem Text="Pickup" Value="@DeliveryMethods.Pickup"/>
                     </Items>
                 </RadzenSelectBar>
             </RadzenFieldset>
             <RadzenFieldset Text="Cuisine" >
-                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true"  @bind-Value="@selectedCuisines"
+                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true"  @bind-Value="@_selectedCuisines"
                                  Change="ChangeCuisine" >
                     <Items>
                         @foreach (var item in cache.Cuisines)
@@ -80,7 +81,9 @@ else
 @code {
 
     IEnumerable<string> _categories = new string[] {};
-    IEnumerable<string> selectedCuisines = new string[] {};
+    IEnumerable<string> _selectedCuisines = new string[] {};
+    IEnumerable<string> _selectedMethods = new string[] { "delivery","pickup" };
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -109,6 +112,11 @@ else
 
     public async void ChangeCuisine()
     {
-       await cache.FilterCuisine(selectedCuisines);
+        await cache.FilterCuisine(_selectedCuisines);
+    }
+
+    public async void ChangeMethod()
+    {
+        await cache.FilterMethod(_selectedMethods);
     }
 }

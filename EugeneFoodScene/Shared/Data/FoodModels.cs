@@ -11,15 +11,22 @@ namespace EugeneFoodScene.Data
     /// <summary>
     /// interface for hoisting Airtable IDs into data objests
     /// </summary>
-    public interface IHasId
+    public interface IAirtable
     {
         public string Id { get; set; }
+    }
+
+
+    public class DeliveryMethods
+    {
+        public const string Delivery = "delivery";
+        public const string Pickup = "pickup";
     }
 
     /// <summary>
     /// Name, Category, Phone, URL, Address, Notes, Order Delivery Links, Menu,
     /// </summary>
-    public class Place : IHasId
+    public class Place : IAirtable
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -28,12 +35,14 @@ namespace EugeneFoodScene.Data
         public List<string> Cuisines { get; set; }
 
         public List<Cuisine> CuisineList { get; set; }
-        public String CuisineDisplay { get; set; }
+        public string CuisineDisplay { get; set; }
+
+        public string Pickup { get; set; }
 
         [JsonProperty("Delivery Options")]
-        public List<String> DeliveryOptions { get; set; }
+        public List<string> DeliveryOptions { get; set; }
         public List<DeliveryService> DeliveryServiceList { get; set; }
-        public String DeliveryOptionsDisplay { get; set; }
+        public string DeliveryOptionsDisplay { get; set; }
         public string Phone { get; set; }
         public string URL { get; set; }
         public string Address { get; set; }
@@ -49,14 +58,14 @@ namespace EugeneFoodScene.Data
     /// <summary>
     /// Category, Places, 
     /// </summary>
-    public class Category : IHasId
+    public class Category : IAirtable
     {
         public string Id { get; set; }
         public string Name { get; set; }
         public List<string> Places { get; set; }
     }
 
-    public class Cuisine : IHasId
+    public class Cuisine : IAirtable
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -64,7 +73,7 @@ namespace EugeneFoodScene.Data
         public List<Place> PlacesList { get; set; }
     }
 
-    public class DeliveryService : IHasId
+    public class DeliveryService : IAirtable
     {
         public string Id { get; set; }
         public string Name { get; set; }

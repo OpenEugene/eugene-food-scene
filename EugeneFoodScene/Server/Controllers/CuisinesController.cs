@@ -29,7 +29,7 @@ namespace EugeneFoodScene.Server.Controllers
         [HttpGet]
         public async Task<IEnumerable<Cuisine>> Get()
         {
-            var list  = await _airTableService.GetCuisines();
+            var list  = await _airTableService.GetCuisinesAsync();
             return list.ToArray();
         }
     }

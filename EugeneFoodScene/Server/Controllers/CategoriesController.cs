@@ -29,8 +29,8 @@ namespace EugeneFoodScene.Server.Controllers
         [HttpGet]
         public async Task<IEnumerable<Category>> Get()
         {
-            var list  = await _airTableService.GetCatagories();
-            return list.ToArray();
+            var cats  = await _airTableService.GetCategoriesAsync();
+            return cats;
         }
     }
 }

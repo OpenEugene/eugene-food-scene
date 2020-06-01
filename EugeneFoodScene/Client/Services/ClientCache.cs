@@ -18,6 +18,10 @@ namespace EugeneFoodScene.Client.Services
         private List<Category> _categories = null;
         private List<Cuisine> _cuisines = null;
 
+        private IEnumerable<string> _selectedCuisines = null;
+        private IEnumerable<string> _selectedMethods = null;
+        private string _searchWords = null;
+
         public  ClientCache(HttpClient http) : base(http) {}
 
         public List<Place> AllPlaces
@@ -66,12 +70,16 @@ namespace EugeneFoodScene.Client.Services
             _foundPlaces = null;
             _allPlaces = null;
             _categories = null;
+            _selectedCuisines = null;
+            _selectedMethods = null;
+            _searchWords = null;
         }
         public async Task Reset()
         {
             await Clear();
             await GetAllPlaces();
             await GetCategories();
+            await GetCuisines();
         }
 
         public async Task<Place> GetPlace(string Id)
@@ -81,24 +89,53 @@ namespace EugeneFoodScene.Client.Services
             return place;
         }
 
-        public async Task Search(string words) {
-            await GetAllPlaces();
-            FoundPlaces = AllPlaces.Where(p => p.Name.Contains(words,StringComparison.OrdinalIgnoreCase)).ToList();
-            OnCacheUpdated();
+        public async Task Search(string words)
+        {
+            _searchWords = words;
+            await ApplyFilters();
         }
 
         public async Task FilterCuisine(IEnumerable<string> selectedCuisines)
         {
+            _selectedCuisines = selectedCuisines;
+            await ApplyFilters();
+        }
+
+        public async Task FilterMethod(IEnumerable<string> selectedMethods)
+        {
+            _selectedMethods = selectedMethods;
+            await ApplyFilters();
+        }
+
+        private async Task ApplyFilters()
+        {
             await GetAllPlaces();
 
-            var query = 
-                from p in AllPlaces
-                where p.Cuisines.Any(selectedCuisines.Contains)
-                select p;
+            var query = from p in AllPlaces select p;
+
+            if (_selectedMethods != null)
+            {
+                query = from p in query
+                    where p.Pickup=="Yes" & _selectedMethods.Contains("pickup")
+                    select p;
+            }
+
+            if (_selectedCuisines != null)
+            {
+                query = from p in query
+                    where p.Cuisines.Any(_selectedCuisines.Contains)
+                    select p;
+            }
+
+            if (_searchWords != null)
+            {
+                query = query.Where(p => p.Name.Contains(_searchWords, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
 
             FoundPlaces = query.ToList();
 
             OnCacheUpdated();
         }
+
     }
 }

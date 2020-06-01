@@ -15,51 +15,52 @@ namespace EugeneFoodScene.Services
     /// <summary>
     /// a bruit force airtable data caching service
     /// </summary>
-    public class AirTableService
+    public class AirTableService : AirTableBase
     {
-        private readonly string baseId;
-        private readonly string appKey;
+        private IEnumerable<Place> _placesPop;  // the higest level populated places list.
+        private IEnumerable<Place> _places;
+        private IEnumerable<Category> _categories;
+        private IEnumerable<Cuisine> _cuisines;
+        private IEnumerable<DeliveryService> _deliveryServices;
 
-        private IEnumerable<Place> _placesPop;  // the higest level opoulated places list.
-  
-        private List<AirtableRecord<Place>> _places;
-        private List<AirtableRecord<Category>> _categories;
-        private List<AirtableRecord<Cuisine>> _cuisines;
-        private List<AirtableRecord<DeliveryService>> _deliveryServices;
+        public AirTableService(IConfiguration configuration) : base(configuration) {}
 
-        public AirTableService(IConfiguration configuration)
+        public async Task<IEnumerable<Place>> GetPlacesAsync()
         {
-            baseId = configuration["AirTable:BaseId"];
-            appKey = configuration["AirTable:AppKey"];
+            return _places ??= await GetTableAsync<Place>("Places");
         }
 
-        public async Task<IEnumerable<Category>> GetCatagories()
+        public async Task<IEnumerable<Category>> GetCategoriesAsync()
         {
-            await GetCategoriesAsync();
-            
-            var list = from c in _categories select c.Fields;
-            return list.ToArray();
+            return _categories ??= await GetTableAsync<Category>("Categories");
         }
 
-        public async Task<IEnumerable<Cuisine>> GetCuisines()
+        public async Task<IEnumerable<Cuisine>> GetCuisinesAsync()
         {
-            await GetCuisinesAsync();
-
-            var list = from c in _cuisines select c.Fields;
-            return list.ToArray();
+            return _cuisines ??= await GetTableAsync<Cuisine>("Cuisines");
         }
 
+        public async Task<IEnumerable<DeliveryService>> GetDeliveryServicesAsync()
+        {
+            return _deliveryServices ??= await GetTableAsync<DeliveryService>("Delivery Services");
+        }
+
+        public async Task<DeliveryService> GetDeliveryServiceAsync(string id)
+        {
+            _deliveryServices ??= await GetDeliveryServicesAsync();
+            return _deliveryServices.FirstOrDefault(c => c.Id == id);
+        }
+
+     
         public async Task<IEnumerable<Place>> GetPlacesPopulatedAsync()
         {
-
             if (_placesPop != null)
             {
                 return _placesPop;
             }
-            var records = await GetPlacesAsync();
+            var places = await GetPlacesAsync();
             var cuisines = await GetCuisinesAsync();
-            var places = (from r in records select r.Fields).ToList();
-
+          
             // populate lookups
             foreach (var place in places)
             {
@@ -113,199 +114,10 @@ namespace EugeneFoodScene.Services
 
         public async Task<Cuisine> GetCuisineAsync(string id)
         {
-            if (_cuisines == null)
-            {
-                _cuisines = await GetCuisinesAsync();
-            }
+            _cuisines ??= await GetCuisinesAsync();
 
-            return _cuisines.Where(c => c.Id == id).FirstOrDefault().Fields;
+            return _cuisines.FirstOrDefault(c => c.Id == id);
         }
 
-        public async Task<DeliveryService> GetDeliveryServiceAsync(string id)
-        {
-            if (_deliveryServices == null)
-            {
-                _deliveryServices = await GetDeliveryServicesAsync();
-            }
-
-            return _deliveryServices.Where(c => c.Id == id).FirstOrDefault().Fields;
-        }
-
-        public async Task<List<AirtableRecord<Place>>> GetPlacesAsync()
-        {
-            // check the cache
-            if (_places != null) return _places;
-
-            _places = new List<AirtableRecord<Place>>();
-            string offset = null;
-
-            using (AirtableBase airtableBase = new AirtableBase(appKey, baseId))
-            {
-                do
-                {
-
-                    Task<AirtableListRecordsResponse<Place>> task =
-                        airtableBase.ListRecords<Place>(tableName: "Places", offset: offset);
-
-                    var response = await task;
-
-                    if (response.Success)
-                    {
-                        PopulateIds(response.Records);
-                       
-                        _places.AddRange(response.Records);
-                        offset = response.Offset;
-                    }
-                    else if (response.AirtableApiError is AirtableApiException)
-                    {
-                        throw new Exception(response.AirtableApiError.ErrorMessage);
-                        break;
-                    }
-                    else
-                    {
-                        throw new Exception("Unknown error");
-                        break;
-                    }
-
-                } while (offset != null);
-
-                   
-            }
-            return _places;
-        }
-
-        private void PopulateIds<T>(IEnumerable<AirtableRecord<T>> responseRecords) where T :IHasId
-        {
-            foreach (var item in responseRecords)
-            {
-                item.Fields.Id = item.Id;
-            }
-        }
-
-        public async Task<List<AirtableRecord<Cuisine>>> GetCuisinesAsync()
-        {
-            // check the cache
-            if (_cuisines != null) return _cuisines;
-
-            _cuisines = new List<AirtableRecord<Cuisine>>();
-            string offset = null;
-
-            using (AirtableBase airtableBase = new AirtableBase(appKey, baseId))
-            {
-                do
-                {
-
-                    Task<AirtableListRecordsResponse<Cuisine>> task =
-                        airtableBase.ListRecords<Cuisine>(tableName: "Cuisines", offset: offset);
-
-                    var response = await task;
-
-                    if (response.Success)
-                    {
-                        PopulateIds(response.Records);
-                        _cuisines.AddRange(response.Records);
-                        offset = response.Offset;
-                    }
-                    else if (response.AirtableApiError is AirtableApiException)
-                    {
-                        throw new Exception(response.AirtableApiError.ErrorMessage);
-                        break;
-                    }
-                    else
-                    {
-                        throw new Exception("Unknown error");
-                        break;
-                    }
-
-                } while (offset != null);
-
-
-            }
-            return _cuisines;
-        }
-
-        public async Task<List<AirtableRecord<Category>>> GetCategoriesAsync()
-        {
-            // check the cache
-            if (_categories != null) return _categories;
-
-            _categories = new List<AirtableRecord<Category>>();
-            string offset = null;
-
-            using (AirtableBase airtableBase = new AirtableBase(appKey, baseId))
-            {
-                do
-                {
-
-                    Task<AirtableListRecordsResponse<Category>> task =
-                        airtableBase.ListRecords<Category>(tableName: "Categories", offset: offset);
-
-                    var response = await task;
-
-                    if (response.Success)
-                    {
-                        PopulateIds(response.Records);
-                        _categories.AddRange(response.Records);
-                        offset = response.Offset;
-                    }
-                    else if (response.AirtableApiError is AirtableApiException)
-                    {
-                        throw new Exception(response.AirtableApiError.ErrorMessage);
-                        break;
-                    }
-                    else
-                    {
-                        throw new Exception("Unknown error");
-                        break;
-                    }
-
-                } while (offset != null);
-
-
-            }
-            return _categories;
-        }
-
-        public async Task<List<AirtableRecord<DeliveryService>>> GetDeliveryServicesAsync()
-        {
-            // check the cache
-            if (_deliveryServices != null) return _deliveryServices;
-
-            _deliveryServices = new List<AirtableRecord<DeliveryService>>();
-            string offset = null;
-
-            using (AirtableBase airtableBase = new AirtableBase(appKey, baseId))
-            {
-                do
-                {
-
-                    var task =
-                        airtableBase.ListRecords<DeliveryService>(tableName: "Delivery Services", offset: offset);
-
-                    var response = await task;
-
-                    if (response.Success)
-                    {
-                        PopulateIds(response.Records);
-                        _deliveryServices.AddRange(response.Records);
-                        offset = response.Offset;
-                    }
-                    else if (response.AirtableApiError is AirtableApiException)
-                    {
-                        throw new Exception(response.AirtableApiError.ErrorMessage);
-                        break;
-                    }
-                    else
-                    {
-                        throw new Exception("Unknown error");
-                        break;
-                    }
-
-                } while (offset != null);
-
-
-            }
-            return _deliveryServices;
-        }
     }
 }
