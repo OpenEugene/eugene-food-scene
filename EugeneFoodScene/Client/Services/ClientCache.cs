@@ -47,6 +47,9 @@ namespace EugeneFoodScene.Client.Services
             set => SetField(ref _cuisines, value);
         }
 
+        public string[] OrderMethods  =>  new [] { "Delivery","Pick-up", "Curbside", "Dine-in" };
+        
+
         public async Task<List<Place>> GetAllPlaces()
         {
             return _allPlaces ??= await Http.GetFromJsonAsync<List<Place>>("Places");
@@ -116,7 +119,8 @@ namespace EugeneFoodScene.Client.Services
             if (_selectedMethods != null)
             {
                 query = from p in query
-                    where p.Pickup=="Yes" & _selectedMethods.Contains("pickup")
+                    where p.OrderingServiceList.Any(
+                        o => o.DeliveryMethods.Any(_selectedMethods.Contains))
                     select p;
             }
 
@@ -132,7 +136,10 @@ namespace EugeneFoodScene.Client.Services
                 query = query.Where(p => p.Name.Contains(_searchWords, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
-            FoundPlaces = query.ToList();
+            if (query.Any())
+            {
+                FoundPlaces = query.ToList();
+            }
 
             OnCacheUpdated();
         }

@@ -33,22 +33,24 @@ namespace EugeneFoodScene.Data
         public List<string> Category { get; set; }
 
         public List<string> Cuisines { get; set; }
+        public List<string> Tags { get; set; }
 
         public List<Cuisine> CuisineList { get; set; }
+        public List<Tag> TagList { get; set; }
+        [Obsolete]
         public string CuisineDisplay { get; set; }
-
+        [Obsolete]
         public string Pickup { get; set; }
 
-        [JsonProperty("Delivery Options")]
-        public List<string> DeliveryOptions { get; set; }
-        public List<DeliveryService> DeliveryServiceList { get; set; }
+        [JsonProperty("Ordering Services")]
+        public List<string> OrderingServices { get; set; }
+        public List<OrderingService> OrderingServiceList { get; set; }
         public string DeliveryOptionsDisplay { get; set; }
         public string Phone { get; set; }
         public string URL { get; set; }
         public string Address { get; set; }
         public string Specials { get; set; }
         public string Notes { get; set; }
-        public List<OrderDeliveryLink> OrderDeliveryLinks { get; set; }
         public List<AirtableAttachment> Menu { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
@@ -73,26 +75,31 @@ namespace EugeneFoodScene.Data
         public List<Place> PlacesList { get; set; }
     }
 
-    public class DeliveryService : IAirtable
+    public class OrderingService : IAirtable
     {
         public string Id { get; set; }
         public string Name { get; set; }
         public List<string> Places { get; set; }
         public List<string> OrderDeliveryLinks { get; set; }
+        [JsonProperty("Delivery Methods")]
+        public List<string> DeliveryMethods { get; set; }
 
-        public string ImageName { 
-            get {
-                return Name.Replace(" '","").ToLower().Trim();
-            } 
-        }
-
+        public string ImageName => Name.Replace(" '","").ToLower().Trim();
     }
 
-    public class OrderDeliveryLink
+    public class Tag : IAirtable
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public List<string> Places { get; set; }
+       
+    }
+
+    public class OrderingServiceLink
     {
         public string Id { get; set; }
         public string URL { get; set; }
         public List<String> Places { get; set; }
-        public List<String> DeliveryServices { get; set; }
+        public List<String> OrderingServices { get; set; }
     }
 }

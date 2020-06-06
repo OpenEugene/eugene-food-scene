@@ -33,7 +33,6 @@ else
                         </div>
                         <RadzenFieldset Text="Specials">
                             <RadzenTextArea Value="@place.Specials" class="special"/>
-                            <RadzenTextArea Value="@place.Specials" class="special"/>
                         </RadzenFieldset>
                     </RadzenPanel>
                     <div class="map-display">
@@ -41,7 +40,7 @@ else
                     </div>
                 </div>
                 <RadzenFieldset Text="Ordering & Delivery Options">
-                    <RadzenDataList WrapItems="true" AllowPaging="true" Data="@place.DeliveryServiceList" TItem="DeliveryService">
+                    <RadzenDataList WrapItems="true" AllowPaging="true" Data="@place.OrderingServiceList" TItem="OrderingService">
                         <Template Context="service">
                             <RadzenPanel>
                                 <RadzenImage Path="@($"images/{service.ImageName}.png")"/>

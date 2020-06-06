@@ -21,7 +21,7 @@ namespace EugeneFoodScene.Services
         private IEnumerable<Place> _places;
         private IEnumerable<Category> _categories;
         private IEnumerable<Cuisine> _cuisines;
-        private IEnumerable<DeliveryService> _deliveryServices;
+        private IEnumerable<OrderingService> _orderingServices;
 
         public AirTableService(IConfiguration configuration) : base(configuration) {}
 
@@ -40,15 +40,15 @@ namespace EugeneFoodScene.Services
             return _cuisines ??= await GetTableAsync<Cuisine>("Cuisines");
         }
 
-        public async Task<IEnumerable<DeliveryService>> GetDeliveryServicesAsync()
+        public async Task<IEnumerable<OrderingService>> GetOrderingServicesAsync()
         {
-            return _deliveryServices ??= await GetTableAsync<DeliveryService>("Delivery Services");
+            return _orderingServices ??= await GetTableAsync<OrderingService>("Ordering Services");
         }
 
-        public async Task<DeliveryService> GetDeliveryServiceAsync(string id)
+        public async Task<OrderingService> GetOrderingServiceAsync(string id)
         {
-            _deliveryServices ??= await GetDeliveryServicesAsync();
-            return _deliveryServices.FirstOrDefault(c => c.Id == id);
+            _orderingServices ??= await GetOrderingServicesAsync();
+            return _orderingServices.FirstOrDefault(c => c.Id == id);
         }
 
      
@@ -59,7 +59,6 @@ namespace EugeneFoodScene.Services
                 return _placesPop;
             }
             var places = await GetPlacesAsync();
-            var cuisines = await GetCuisinesAsync();
           
             // populate lookups
             foreach (var place in places)
@@ -73,21 +72,21 @@ namespace EugeneFoodScene.Services
                         place.CuisineList.Add(fullCuisine);
                     }
                 }
-                if (place.DeliveryOptions != null)
+                if (place.OrderingServices != null)
                 {
-                    place.DeliveryServiceList = new List<DeliveryService>();
-                    foreach (var option in place.DeliveryOptions)
+                    place.OrderingServiceList = new List<OrderingService>();
+                    foreach (var option in place.OrderingServices)
                     {
-                        var fullList = await GetDeliveryServiceAsync(option);
-                        place.DeliveryServiceList.Add(fullList);
+                        var fullOrderingService = await GetOrderingServiceAsync(option);
+                        place.OrderingServiceList.Add(fullOrderingService);
                     }
                 }
 
                 // convert to list like: "one, two, three"
                 place.CuisineDisplay = String.Join(",", place.CuisineList.Select(c => c.Name));
-                if (place.DeliveryOptions != null)
+                if (place.OrderingServices != null)
                 {
-                    place.DeliveryOptionsDisplay = String.Join(",", place.DeliveryServiceList.Select(c => c.Name));
+                    place.DeliveryOptionsDisplay = String.Join(",", place.OrderingServiceList.Select(c => c.Name));
                 }
             }
             _placesPop = places.ToArray();

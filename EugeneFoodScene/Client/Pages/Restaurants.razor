@@ -16,12 +16,14 @@ else
 
     <div class="d-flex home-flex">
         <RadzenFieldset Text="Filter" class="col-3">
-            <RadzenFieldset Text="Delivery or Take-Out" >
-                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row"  @bind-Value="@_selectedMethods"  
+            <RadzenFieldset Text="Delivery Method" >
+                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true"  @bind-Value="@_selectedMethods"  
                                  Change="ChangeMethod" >
                     <Items>
-                        <RadzenSelectBarItem Text="Delivery" Value="@DeliveryMethods.Delivery"/>
-                        <RadzenSelectBarItem Text="Pickup" Value="@DeliveryMethods.Pickup"/>
+                        @foreach (var item in cache.OrderMethods)
+                        {
+                            <RadzenSelectBarItem Text="@item" Value="@item"/>
+                        }
                     </Items>
                 </RadzenSelectBar>
             </RadzenFieldset>
@@ -46,10 +48,6 @@ else
                     </Items>
                 </RadzenSelectBar>
             </RadzenFieldset>
-            <span>
-                <RadzenCheckBox TValue="bool"/>
-                <RadzenLabel Text="Location" Style="margin-left: 5px; margin-bottom: 20px"/>
-            </span>
             <span>
                 <RadzenCheckBox TValue="bool"/>
                 <RadzenLabel Text="Curbside" Style="margin-left: 5px; margin-bottom: 20px"/>
@@ -82,7 +80,8 @@ else
 
     IEnumerable<string> _categories = new string[] {};
     IEnumerable<string> _selectedCuisines = new string[] {};
-    IEnumerable<string> _selectedMethods = new string[] { "delivery","pickup" };
+    IEnumerable<string> _selectedMethods = new string[] 
+        { "Delivery","Pick-up", "Curbside", "Dine-in" };
 
 
     protected override async Task OnInitializedAsync()
