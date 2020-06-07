@@ -15,20 +15,22 @@ namespace EugeneFoodScene.Client.Services
     public class ClientCache : BaseCache
     {
         //places data
-        private List<Place> _allPlaces = null; 
-        private List<Place> _foundPlaces = null;
+        private List<Place> _allPlaces;
+        private List<Place> _foundPlaces;
 
         //lookups
-        private List<Category> _categories = null;
-        private List<Cuisine> _cuisines = null;
-        private List<Tag> _tags = null;
+        private List<Category> _categories;
+        private List<Cuisine> _cuisines;
+        private List<Tag> _tags;
 
         // filters
-        private string[] _selectedCuisines = null;
-        private string[] _selectedMethods = null;
-        private string _searchWords = null;
+        private string[] _selectedCuisines;
+        private string[] _selectedMethods;
+        private string[] _selectedCategories;
+        private string _searchWords;
 
         private NotificationService _notificationService;
+ 
 
         public ClientCache(HttpClient http, NotificationService notificationService ) : base(http)
         {
@@ -128,6 +130,14 @@ namespace EugeneFoodScene.Client.Services
             await ApplyFilters();
         }
 
+        public async Task FilterCategory(string[] selectedCategories)
+        {
+            _selectedCategories = selectedCategories;
+            await ApplyFilters();
+        }
+        
+
+
         public async Task FilterMethod(string[] selectedMethods)
         {
             _selectedMethods = selectedMethods;
@@ -152,6 +162,13 @@ namespace EugeneFoodScene.Client.Services
             {
                 query = from p in query
                     where p.CuisineList.Any(c=>_selectedCuisines.Contains(c.Id))
+                    select p;
+            }
+
+            if (_selectedCategories != null)
+            {
+                query = from p in query
+                    where p.CategoryList.Any(c => _selectedCategories.Contains(c.Id))
                     select p;
             }
 

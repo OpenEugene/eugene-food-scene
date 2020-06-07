@@ -70,17 +70,25 @@ namespace EugeneFoodScene.Services
                
                 if (place.Cuisines != null)
                 {
-                    foreach (var cuisine in place.Cuisines)
+                    foreach (var id in place.Cuisines)
                     {
-                        place.CuisineList.Add(await GetCuisineAsync(cuisine));
+                        place.CuisineList.Add(await GetCuisineAsync(id));
+                    }
+                }
+
+                if (place.Categories != null)
+                {
+                    foreach (var id in place.Categories)
+                    {
+                        place.CategoryList.Add(await GetCategoryAsync(id));
                     }
                 }
                 if (place.OrderingServices != null)
                 {
                     
-                    foreach (var option in place.OrderingServices)
+                    foreach (var id in place.OrderingServices)
                     {
-                        place.OrderingServiceList.Add(await GetOrderingServiceAsync(option));
+                        place.OrderingServiceList.Add(await GetOrderingServiceAsync(id));
 
                     }
                 }
@@ -127,6 +135,13 @@ namespace EugeneFoodScene.Services
             _cuisines ??= await GetCuisinesAsync();
 
             return _cuisines.FirstOrDefault(c => c.Id == id);
+        }
+
+        public async Task<Category> GetCategoryAsync(string id)
+        {
+            _categories ??= await GetCategoriesAsync();
+
+            return _categories.FirstOrDefault(c => c.Id == id);
         }
 
         public async Task<Tag> GetTagAsync(string id)

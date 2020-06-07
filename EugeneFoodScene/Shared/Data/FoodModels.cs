@@ -30,7 +30,9 @@ namespace EugeneFoodScene.Data
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public List<string> Category { get; set; }
+        [JsonProperty("Category")]
+        public List<string> Categories { get; set; }
+        public List<Category> CategoryList { get; set; } = new List<Category>();
 
         public List<string> Cuisines { get; set; }
         public List<string> Tags { get; set; }
