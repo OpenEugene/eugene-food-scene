@@ -35,8 +35,8 @@ namespace EugeneFoodScene.Data
         public List<string> Cuisines { get; set; }
         public List<string> Tags { get; set; }
 
-        public List<Cuisine> CuisineList { get; set; }
-        public List<Tag> TagList { get; set; }
+        public List<Cuisine> CuisineList { get; set; } = new List<Cuisine>();
+        public List<Tag> TagList { get; set; } = new List<Tag>();
         [Obsolete]
         public string CuisineDisplay { get; set; }
         [Obsolete]
@@ -44,7 +44,7 @@ namespace EugeneFoodScene.Data
 
         [JsonProperty("Ordering Services")]
         public List<string> OrderingServices { get; set; }
-        public List<OrderingService> OrderingServiceList { get; set; }
+        public List<OrderingService> OrderingServiceList { get; set; } = new List<OrderingService>();
         public string DeliveryOptionsDisplay { get; set; }
         public string Phone { get; set; }
         public string URL { get; set; }

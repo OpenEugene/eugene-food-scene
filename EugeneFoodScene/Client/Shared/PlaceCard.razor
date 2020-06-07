@@ -1,0 +1,20 @@
+﻿<RadzenCard>
+
+    <b><RadzenLink Text="@Place.Name" Path="@($"restaurant/{Place.Id}")"></RadzenLink></b>
+    <RadzenLabel Text="Phone:"></RadzenLabel>
+    <b>@Place.Phone</b>
+    <RadzenLabel Text="Cuisines:"></RadzenLabel>
+    <b>@Place.CuisineDisplay</b>
+    <RadzenLabel Text="Delivery Services:"></RadzenLabel>
+    <b>@Place.DeliveryOptionsDisplay</b>
+    <RadzenLabel Text="Address:"></RadzenLabel>
+    <b>@Place.Address</b>
+
+</RadzenCard>
+
+@code {
+
+    [Parameter]
+    public Place Place { get; set; }
+
+}

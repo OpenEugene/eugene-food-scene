@@ -8,21 +8,32 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using EugeneFoodScene.Data;
+using Radzen;
 
 namespace EugeneFoodScene.Client.Services
 {
     public class ClientCache : BaseCache
     {
+        //places data
         private List<Place> _allPlaces = null; 
         private List<Place> _foundPlaces = null;
+
+        //lookups
         private List<Category> _categories = null;
         private List<Cuisine> _cuisines = null;
+        private List<Tag> _tags = null;
 
-        private IEnumerable<string> _selectedCuisines = null;
-        private IEnumerable<string> _selectedMethods = null;
+        // filters
+        private string[] _selectedCuisines = null;
+        private string[] _selectedMethods = null;
         private string _searchWords = null;
 
-        public  ClientCache(HttpClient http) : base(http) {}
+        private NotificationService _notificationService;
+
+        public ClientCache(HttpClient http, NotificationService notificationService ) : base(http)
+        {
+            _notificationService = notificationService;
+        }
 
         public List<Place> AllPlaces
         {
@@ -40,6 +51,12 @@ namespace EugeneFoodScene.Client.Services
         {
             get => _categories;
             set => SetField(ref _categories, value);
+        }
+
+        public List<Tag> Tags
+        {
+            get => _tags;
+            set => SetField(ref _tags, value);
         }
         public List<Cuisine> Cuisines
         {
@@ -68,6 +85,11 @@ namespace EugeneFoodScene.Client.Services
         {
             return _cuisines ??= await Http.GetFromJsonAsync<List<Cuisine>>("Cuisines");
         }
+
+        public async Task<List<Tag>> GetTags()
+        {
+            return _tags ??= await Http.GetFromJsonAsync<List<Tag>>("Tags");
+        }
         public async Task Clear()
         {
             _foundPlaces = null;
@@ -76,6 +98,7 @@ namespace EugeneFoodScene.Client.Services
             _selectedCuisines = null;
             _selectedMethods = null;
             _searchWords = null;
+            _tags = null;
         }
         public async Task Reset()
         {
@@ -83,6 +106,7 @@ namespace EugeneFoodScene.Client.Services
             await GetAllPlaces();
             await GetCategories();
             await GetCuisines();
+            await GetTags();
         }
 
         public async Task<Place> GetPlace(string Id)
@@ -98,13 +122,13 @@ namespace EugeneFoodScene.Client.Services
             await ApplyFilters();
         }
 
-        public async Task FilterCuisine(IEnumerable<string> selectedCuisines)
+        public async Task FilterCuisine(string[] selectedCuisines)
         {
             _selectedCuisines = selectedCuisines;
             await ApplyFilters();
         }
 
-        public async Task FilterMethod(IEnumerable<string> selectedMethods)
+        public async Task FilterMethod(string[] selectedMethods)
         {
             _selectedMethods = selectedMethods;
             await ApplyFilters();
@@ -127,7 +151,7 @@ namespace EugeneFoodScene.Client.Services
             if (_selectedCuisines != null)
             {
                 query = from p in query
-                    where p.Cuisines.Any(_selectedCuisines.Contains)
+                    where p.CuisineList.Any(c=>_selectedCuisines.Contains(c.Id))
                     select p;
             }
 
@@ -136,9 +160,30 @@ namespace EugeneFoodScene.Client.Services
                 query = query.Where(p => p.Name.Contains(_searchWords, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
-            if (query.Any())
+            var list = query.ToList();  // deferred execution
+            if (list.Count == 0)
             {
-                FoundPlaces = query.ToList();
+                var msg = new NotificationMessage()
+                {
+                    Severity = NotificationSeverity.Info, 
+                    Summary = "No matches", 
+                    Detail = "Nothing found with those filters, showing everything.",
+                    Duration = 4000
+                };
+                _notificationService.Notify(msg);
+                FoundPlaces = AllPlaces;
+            }
+            else
+            {
+                var msg = new NotificationMessage()
+                {
+                    Severity = NotificationSeverity.Info,
+                    Summary = "Matches!",
+                    Detail = $"found {list.Count} matching places.",
+                    Duration = 2000
+                };
+                _notificationService.Notify(msg);
+                FoundPlaces = list;
             }
 
             OnCacheUpdated();

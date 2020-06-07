@@ -20,6 +20,7 @@ namespace EugeneFoodScene.Services
         private IEnumerable<Place> _placesPop;  // the higest level populated places list.
         private IEnumerable<Place> _places;
         private IEnumerable<Category> _categories;
+        private IEnumerable<Tag> _tags;
         private IEnumerable<Cuisine> _cuisines;
         private IEnumerable<OrderingService> _orderingServices;
 
@@ -34,7 +35,10 @@ namespace EugeneFoodScene.Services
         {
             return _categories ??= await GetTableAsync<Category>("Categories");
         }
-
+        public async Task<IEnumerable<Tag>> GetTagsAsync()
+        {
+            return _tags ??= await GetTableAsync<Tag>("Tags");
+        }
         public async Task<IEnumerable<Cuisine>> GetCuisinesAsync()
         {
             return _cuisines ??= await GetTableAsync<Cuisine>("Cuisines");
@@ -63,22 +67,29 @@ namespace EugeneFoodScene.Services
             // populate lookups
             foreach (var place in places)
             {
-                place.CuisineList = new List<Cuisine>();
+               
                 if (place.Cuisines != null)
                 {
                     foreach (var cuisine in place.Cuisines)
                     {
-                        var fullCuisine = await GetCuisineAsync(cuisine);
-                        place.CuisineList.Add(fullCuisine);
+                        place.CuisineList.Add(await GetCuisineAsync(cuisine));
                     }
                 }
                 if (place.OrderingServices != null)
                 {
-                    place.OrderingServiceList = new List<OrderingService>();
+                    
                     foreach (var option in place.OrderingServices)
                     {
-                        var fullOrderingService = await GetOrderingServiceAsync(option);
-                        place.OrderingServiceList.Add(fullOrderingService);
+                        place.OrderingServiceList.Add(await GetOrderingServiceAsync(option));
+
+                    }
+                }
+
+                if (place.Tags != null)
+                {
+                    foreach (var tag in place.Tags)
+                    {
+                        place.TagList.Add(await GetTagAsync(tag));
                     }
                 }
 
@@ -116,6 +127,13 @@ namespace EugeneFoodScene.Services
             _cuisines ??= await GetCuisinesAsync();
 
             return _cuisines.FirstOrDefault(c => c.Id == id);
+        }
+
+        public async Task<Tag> GetTagAsync(string id)
+        {
+            _tags ??= await GetTagsAsync();
+
+            return _tags.FirstOrDefault(c => c.Id == id);
         }
 
     }
