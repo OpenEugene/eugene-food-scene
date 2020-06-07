@@ -27,6 +27,7 @@ namespace EugeneFoodScene.Client.Services
         private string[] _selectedCuisines;
         private string[] _selectedMethods;
         private string[] _selectedCategories;
+        private string[] _selectedTags;
         private string _searchWords;
 
         private NotificationService _notificationService;
@@ -135,8 +136,12 @@ namespace EugeneFoodScene.Client.Services
             _selectedCategories = selectedCategories;
             await ApplyFilters();
         }
-        
 
+        public async Task FilterTag(string[] selectedTags)
+        {
+            _selectedTags = selectedTags;
+            await ApplyFilters();
+        }
 
         public async Task FilterMethod(string[] selectedMethods)
         {
@@ -150,7 +155,7 @@ namespace EugeneFoodScene.Client.Services
 
             var query = from p in AllPlaces select p;
 
-            if (_selectedMethods != null)
+            if (_selectedMethods?.Length>0)
             {
                 query = from p in query
                     where p.OrderingServiceList.Any(
@@ -158,17 +163,24 @@ namespace EugeneFoodScene.Client.Services
                     select p;
             }
 
-            if (_selectedCuisines != null)
+            if (_selectedCuisines?.Length > 0)
             {
                 query = from p in query
                     where p.CuisineList.Any(c=>_selectedCuisines.Contains(c.Id))
                     select p;
             }
 
-            if (_selectedCategories != null)
+            if (_selectedCategories?.Length > 0)
             {
                 query = from p in query
                     where p.CategoryList.Any(c => _selectedCategories.Contains(c.Id))
+                    select p;
+            }
+
+            if (_selectedTags?.Length > 0)
+            {
+                query = from p in query
+                    where p.TagList.Any(t => _selectedTags.Contains(t.Id))
                     select p;
             }
 

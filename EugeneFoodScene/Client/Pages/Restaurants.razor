@@ -50,7 +50,8 @@ else
                 </RadzenSelectBar>
             </RadzenFieldset>
             <RadzenFieldset Text="Tags" >
-                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true" @bind-Value="@_selectedTags" >
+                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true" @bind-Value="@_selectedTags"
+                                 Change="ChangeTag">
                     <Items>
                         @foreach (var item in cache.Tags)
                         {
@@ -114,9 +115,13 @@ else
         await cache.FilterCategory(_selectedCategories.ToArray());
     }
 
-
     public async void ChangeMethod()
     {
         await cache.FilterMethod(_selectedMethods.ToArray());
+    }
+
+    public async void ChangeTag()
+    {
+        await cache.FilterTag(_selectedTags.ToArray());
     }
 }
