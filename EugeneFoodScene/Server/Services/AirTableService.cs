@@ -83,13 +83,12 @@ namespace EugeneFoodScene.Services
                         place.CategoryList.Add(await GetCategoryAsync(id));
                     }
                 }
+
                 if (place.OrderingServices != null)
                 {
-                    
                     foreach (var id in place.OrderingServices)
                     {
                         place.OrderingServiceList.Add(await GetOrderingServiceAsync(id));
-
                     }
                 }
 
@@ -101,12 +100,6 @@ namespace EugeneFoodScene.Services
                     }
                 }
 
-                // convert to list like: "one, two, three"
-                place.CuisineDisplay = String.Join(",", place.CuisineList.Select(c => c.Name));
-                if (place.OrderingServices != null)
-                {
-                    place.DeliveryOptionsDisplay = String.Join(",", place.OrderingServiceList.Select(c => c.Name));
-                }
             }
             _placesPop = places.ToArray();
             return _placesPop;
