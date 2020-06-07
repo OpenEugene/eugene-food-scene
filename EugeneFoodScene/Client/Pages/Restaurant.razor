@@ -27,9 +27,9 @@ else
                             </RadzenDataList>
                         </RadzenFieldset>
                         <div class="stat-buttons">
-                            <RadzenButton Text="Phone" Click="@PhoneClick"></RadzenButton>
-                            <RadzenButton Text="Website" Click="@WebClick"></RadzenButton>
-                            <RadzenButton Text="Menu" Click="@MenuClick"></RadzenButton>
+                            <RadzenButton Icon="phone" Text="@place.Phone" Click="@PhoneClick"></RadzenButton>
+                            <RadzenButton Icon="web" Text="Website" Click="@WebClick"></RadzenButton>
+                            <RadzenButton Icon="menu_book" Text="Menu" Click="@MenuClick"></RadzenButton>
                         </div>
                         <RadzenFieldset Text="Specials">
                             <RadzenTextArea Value="@place.Specials" class="special"/>
