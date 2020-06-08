@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -67,13 +68,13 @@ namespace EugeneFoodScene.Services
             // populate lookups
             foreach (var place in places)
             {
-               
                 if (place.Cuisines != null)
                 {
                     foreach (var id in place.Cuisines)
                     {
                         place.CuisineList.Add(await GetCuisineAsync(id));
                     }
+                   
                 }
 
                 if (place.Categories != null)
@@ -82,6 +83,7 @@ namespace EugeneFoodScene.Services
                     {
                         place.CategoryList.Add(await GetCategoryAsync(id));
                     }
+                   
                 }
 
                 if (place.OrderingServices != null)
@@ -90,6 +92,7 @@ namespace EugeneFoodScene.Services
                     {
                         place.OrderingServiceList.Add(await GetOrderingServiceAsync(id));
                     }
+                  
                 }
 
                 if (place.Tags != null)
@@ -98,6 +101,7 @@ namespace EugeneFoodScene.Services
                     {
                         place.TagList.Add(await GetTagAsync(tag));
                     }
+                   
                 }
 
             }

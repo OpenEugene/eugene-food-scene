@@ -68,9 +68,18 @@ namespace EugeneFoodScene.Services
 
                 } while (offset != null);
 
-
             }
-            var list = from c in table select c.Fields;
+
+            List<T> list = new List<T>();
+            try
+            {
+                list = (from c in table select c.Fields).ToList();
+            }
+            catch (Exception e)
+            {
+                var err = e.InnerException;
+            }
+
             return list.AsEnumerable();
           
         }

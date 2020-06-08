@@ -3,9 +3,11 @@
 
 @using AirtableApiClient
 @using EugeneFoodScene.Data
+
 @implements IDisposable
 
 @inject ClientCache cache
+@inject ResizeListener listener
 
 @if (cache.FoundPlaces == null)
 {
@@ -13,23 +15,37 @@
 }
 else
 {
-
     <div class="d-flex home-flex">
         <RadzenFieldset Text="Filter" class="col-3">
-            <RadzenFieldset Text="Ordering for..." >
-                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true"  @bind-Value="@_selectedMethods"  
-                                 Change="ChangeMethod" >
-                    <Items>
-                        @foreach (var item in cache.OrderMethods)
-                        {
-                            <RadzenSelectBarItem Text="@item" Value="@item"/>
-                        }
-                    </Items>
-                </RadzenSelectBar>
+            <RadzenFieldset Text="Ordering for...">
+                @if (IsMedium)
+                {
+                    <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" @bind-Value="_selectedMethods" Multiple="true" Data="@cache.OrderMethods" Change="ChangeMethod" />
+                }
+                else
+                {
+                    <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true" @bind-Value="@_selectedMethods"
+                                     Change="ChangeMethod">
+                        <Items>
+                            @foreach (var item in cache.OrderMethods)
+                            {
+                                <RadzenSelectBarItem Text="@item" Value="@item" />
+                            }
+                        </Items>
+                    </RadzenSelectBar>
+                }
             </RadzenFieldset>
-            <RadzenFieldset Text="Cuisine" >
-                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true"  @bind-Value="@_selectedCuisines"
-                                 Change="ChangeCuisine" >
+            <RadzenFieldset Text="Cuisine">
+            @if (IsMedium)
+            {
+                <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+                                @bind-Value="_selectedCuisines" Multiple="true" Data="@cache.Cuisines"
+                                TextProperty="Name" ValueProperty="Id" Change="ChangeCuisine" />
+            }
+            else
+            {
+                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true" @bind-Value="@_selectedCuisines"
+                                 Change="ChangeCuisine">
                     <Items>
                         @foreach (var item in cache.Cuisines)
                         {
@@ -37,9 +53,18 @@ else
                         }
                     </Items>
                 </RadzenSelectBar>
+            }
             </RadzenFieldset>
-            <RadzenFieldset Text="Category" >
-                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true"  @bind-Value="@_selectedCategories"
+            <RadzenFieldset Text="Category">
+            @if (IsMedium)
+            {
+                <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+                                @bind-Value="_selectedCategories" Multiple="true" Data="@cache.Categories"
+                                TextProperty="Name" ValueProperty="Id" Change="ChangeCategory" />
+            }
+            else
+            {
+                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true" @bind-Value="@_selectedCategories"
                                  Change="ChangeCategory">
                     <Items>
                         @foreach (var item in cache.Categories)
@@ -48,8 +73,17 @@ else
                         }
                     </Items>
                 </RadzenSelectBar>
+            }
             </RadzenFieldset>
-            <RadzenFieldset Text="Tags" >
+            <RadzenFieldset Text="Tags">
+            @if (IsMedium)
+            {
+                <RadzenDropDown AllowClear="true"  FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+                                @bind-Value="_selectedTags" Multiple="true" Data="@cache.Tags"
+                                TextProperty="Name" ValueProperty="Id" Change="ChangeTag" />
+            }
+            else
+            {
                 <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true" @bind-Value="@_selectedTags"
                                  Change="ChangeTag">
                     <Items>
@@ -59,25 +93,31 @@ else
                         }
                     </Items>
                 </RadzenSelectBar>
-            </RadzenFieldset>        </RadzenFieldset>
+            }
+            </RadzenFieldset>
+        </RadzenFieldset>
         <RadzenFieldset Text="Resturants">
-            <RadzenDataList WrapItems="true" AllowPaging="true" Data="@cache.FoundPlaces" TItem="Place" PageSize="12" >
+            <RadzenDataList WrapItems="true" AllowPaging="true" Data="@cache.FoundPlaces" TItem="Place" PageSize="12">
                 <Template Context="place">
-                    <PlaceCard Place="place"/>
+                    <PlaceCard Place="place" />
                 </Template>
             </RadzenDataList>
         </RadzenFieldset>
     </div>
-
+    <MediaQuery Media="@Breakpoints.OnlyMedium" @bind-Matches="IsMedium" />
+    <MediaQuery Media="@Breakpoints.SmallDown" @bind-Matches="IsSmall" />
 }
 
 @code {
 
-    IEnumerable<string> _categories = new string[] {};
+    IEnumerable<string> _categories = new string[] { };
     IEnumerable<string> _selectedCuisines;
     IEnumerable<string> _selectedTags;
     IEnumerable<string> _selectedCategories;
-    IEnumerable<string> _selectedMethods = new [] { "Delivery","Pick-up", "Curbside", "Dine-in" };
+    IEnumerable<string> _selectedMethods = new[] { "Delivery", "Pick-up", "Curbside", "Dine-in" };
+
+    bool IsMedium = false;
+    bool IsSmall = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -92,6 +132,7 @@ else
         if (firstRender)
         {
             cache.CacheUpdated += OnCacheUpdated;
+            listener.OnResized += WindowResized;
         }
 
     }
@@ -101,7 +142,8 @@ else
         this.StateHasChanged();
     }
 
-    public void Dispose() {
+    public void Dispose()
+    {
         cache.CacheUpdated -= OnCacheUpdated;
     }
 
@@ -123,5 +165,17 @@ else
     public async void ChangeTag()
     {
         await cache.FilterTag(_selectedTags.ToArray());
+    }
+
+    async void WindowResized(object _, BrowserWindowSize window)
+    {
+
+
+        // Check a media query to see if it was matched. We can do this at any time, but it's best to check on each resize
+        IsSmall = await listener.MatchMedia(Breakpoints.SmallDown);
+        IsMedium = await listener.MatchMedia(Breakpoints.MediumDown);
+ 
+        // We're outside of the component's lifecycle, be sure to let it know it has to re-render.
+        StateHasChanged();
     }
 }

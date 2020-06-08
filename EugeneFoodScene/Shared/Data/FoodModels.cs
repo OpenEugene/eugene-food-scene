@@ -16,6 +16,13 @@ namespace EugeneFoodScene.Data
         public string Id { get; set; }
     }
 
+    /// <summary>
+    /// most tables have an Order field for sorting
+    /// </summary>
+    public interface IOrder
+    {
+        public int Order { get; set; }
+    }
 
     public class DeliveryMethods
     {
@@ -67,6 +74,7 @@ namespace EugeneFoodScene.Data
         public string Id { get; set; }
         public string Name { get; set; }
         public List<string> Places { get; set; }
+        public string Order { get; set; }
     }
 
     public class Cuisine : IAirtable
@@ -75,6 +83,7 @@ namespace EugeneFoodScene.Data
         public string Name { get; set; }
         public List<String> Places { get; set; }
         public List<Place> PlacesList { get; set; }
+        public int Order { get; set; }
     }
 
     public class OrderingService : IAirtable
@@ -85,8 +94,8 @@ namespace EugeneFoodScene.Data
         public List<string> OrderDeliveryLinks { get; set; }
         [JsonProperty("Delivery Methods")]
         public List<string> DeliveryMethods { get; set; }
-
         public string ImageName => Name.Replace(" '","").ToLower().Trim();
+        public int Order { get; set; }
     }
 
     public class Tag : IAirtable
@@ -94,7 +103,8 @@ namespace EugeneFoodScene.Data
         public string Id { get; set; }
         public string Name { get; set; }
         public List<string> Places { get; set; }
-       
+        public int Order { get; set; }
+
     }
 
     public class OrderingServiceLink

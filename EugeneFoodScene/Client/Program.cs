@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text;
+using BlazorPro.BlazorSize;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,7 +34,8 @@ namespace EugeneFoodScene.Client
                 sanitizer.AllowedAttributes.Add("class");
                 return sanitizer;
             });
-            
+            builder.Services.AddScoped<ResizeListener>();
+
 
             await builder.Build().RunAsync();
         }
