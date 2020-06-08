@@ -42,22 +42,44 @@
     }
     private async Task OnAfterMapInitAsync()
     {
-        foreach (var pin in cache.AllPlaces)
+        foreach (var place in cache.AllPlaces)
         {
-            await AddMarker(pin.Name, pin.Latitude, pin.Longitude);
+            await AddMarker(place);
         }
 
     }
-    private async Task AddMarker(string label, double lat, double lng)
+    private async Task AddMarker(Data.Place place)
     {
+        var position = new LatLngLiteral {Lat = place.Latitude, Lng = place.Longitude};
+
         var marker = await Marker.CreateAsync(map1.JsRuntime, new MarkerOptions()
         {
-            Position = new LatLngLiteral { Lat = lat, Lng = lng },
+            Position = position,
             Map = map1.InteropObject,
+            //Label = label
             //Icon = new Icon()
             //{
             //    Url = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
             //}
+        });
+
+        var infoWindow = await InfoWindow.CreateAsync(map1.JsRuntime, new InfoWindowOptions()
+        {
+            Position = new LatLngLiteral()
+            {
+                Lat = 13.505892,
+                Lng = 100.8162
+            },
+
+        });
+
+        var infoWindowContent = $"<a href='restaurant/{place.Id}'>{place.Name}</a>";
+
+        await marker.AddListener("click", async () =>
+        {
+            await infoWindow.SetContent(infoWindowContent);
+            await infoWindow.SetPosition(position);
+            await infoWindow.Open(map1.InteropObject);
         });
 
 

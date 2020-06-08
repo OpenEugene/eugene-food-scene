@@ -35,9 +35,9 @@ else
                             <RadzenTextArea Value="@place.Specials" class="special"/>
                         </RadzenFieldset>
                     </RadzenPanel>
-                    <div class="map-display">
+                    @*<div class="map-display">
                         <RadzenImage Path="images/mappin.png"/>
-                    </div>
+                    </div>*@
                 </div>
                 <RadzenFieldset Text="Ordering & Delivery Options">
                     <RadzenDataList WrapItems="true" AllowPaging="true" Data="@place.OrderingServiceList" TItem="OrderingService">
