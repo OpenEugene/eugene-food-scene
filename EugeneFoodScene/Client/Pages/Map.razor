@@ -1,0 +1,68 @@
+﻿@page "/map"
+
+@using AirtableApiClient
+@using EugeneFoodScene.Data
+@using GoogleMapsComponents
+@using GoogleMapsComponents.Maps
+
+@inject ClientCache cache
+
+<RadzenFieldset Text="Map">
+    <RadzenCard>
+        <RadzenIcon Icon="feedback" />This Map is very simple. Searchable Map coming soon.
+    </RadzenCard>
+    <GoogleMap @ref="@map1" Id="map1"
+               Options="@mapOptions"
+               OnAfterInit="@(async () => await OnAfterMapInitAsync())">
+
+    </GoogleMap>
+</RadzenFieldset>
+
+@code {
+
+    private GoogleMap map1;
+    private MapOptions mapOptions;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await cache.GetAllPlaces();
+
+        mapOptions = new MapOptions()
+        {
+            Zoom = 10,
+            Center = new LatLngLiteral()
+            {
+                Lat = 44.049735,
+                Lng = -123.092554
+            },
+            MapTypeId = MapTypeId.Roadmap
+        };
+
+    }
+    private async Task OnAfterMapInitAsync()
+    {
+        foreach (var pin in cache.AllPlaces)
+        {
+            await AddMarker(pin.Name, pin.Latitude, pin.Longitude);
+        }
+
+    }
+    private async Task AddMarker(string label, double lat, double lng)
+    {
+        var marker = await Marker.CreateAsync(map1.JsRuntime, new MarkerOptions()
+        {
+            Position = new LatLngLiteral { Lat = lat, Lng = lng },
+            Map = map1.InteropObject,
+            //Icon = new Icon()
+            //{
+            //    Url = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+            //}
+        });
+
+
+        //markers.Push(marker);
+
+
+    }
+}
