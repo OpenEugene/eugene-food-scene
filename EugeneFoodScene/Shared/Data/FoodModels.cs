@@ -94,7 +94,9 @@ namespace EugeneFoodScene.Data
         public List<string> OrderDeliveryLinks { get; set; }
         [JsonProperty("Delivery Methods")]
         public List<string> DeliveryMethods { get; set; }
-        public string ImageName => Name.Replace(" '","").ToLower().Trim();
+
+        //remove offending junk like  spaces and dashes and '
+        public string ImageName => String.Join("", Name.Split(' ', '-','\'')).ToLower();
         public int Order { get; set; }
     }
 

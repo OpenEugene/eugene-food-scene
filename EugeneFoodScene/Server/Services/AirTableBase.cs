@@ -57,6 +57,7 @@ namespace EugeneFoodScene.Services
                         table.AddRange(response.Records);
                         offset = response.Offset;
                     }
+                    // look for timeouts and add retry logic. 
                     else if (response.AirtableApiError is AirtableApiException)
                     {
                         throw new Exception(response.AirtableApiError.ErrorMessage);

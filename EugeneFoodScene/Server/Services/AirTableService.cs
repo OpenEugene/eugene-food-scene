@@ -114,6 +114,8 @@ namespace EugeneFoodScene.Services
         {
             ResetPlaces();
             ResetCuisines();
+            ResetCategories();
+            ResetTags();
         }
 
         public void ResetPlaces()
@@ -125,6 +127,16 @@ namespace EugeneFoodScene.Services
         public void ResetCuisines()
         {
             _cuisines = null;
+        }
+
+        public void ResetCategories()
+        {
+            _categories = null;
+        }
+
+        public void ResetTags()
+        {
+            _tags = null;
         }
 
         public async Task<Cuisine> GetCuisineAsync(string id)

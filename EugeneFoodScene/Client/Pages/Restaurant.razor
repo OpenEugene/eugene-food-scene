@@ -12,42 +12,43 @@ else
     <RadzenFieldset>
         <HeaderTemplate>
             <span>
-                <b style="font-size:x-large">@place.Name</b>
+                <b style="font-size:x-large">@place.CategoryList.FirstOrDefault()?.Name</b>
             </span>
         </HeaderTemplate>
         <ChildContent>
             <div class="contain">
+                <h2>@place.Name</h2>
                 <div class="d-flex restaurant-flex">
-                    <RadzenPanel class="flex-column stat-display">
-                        <RadzenFieldset Text="Cuisine">
-                            <RadzenDataList WrapItems="true" AllowPaging="true" Data="@place.CuisineList" TItem="Cuisine">
-                                <Template Context="cuisine">
-                                    <RadzenLabel Text="@cuisine.Name"></RadzenLabel>
-                                </Template>
-                            </RadzenDataList>
-                        </RadzenFieldset>
-                        <div class="stat-buttons">
-                            <RadzenButton Icon="phone" Text="@place.Phone" Click="@PhoneClick"></RadzenButton>
-                            <RadzenButton Icon="web" Text="Website" Click="@WebClick"></RadzenButton>
-                            <RadzenButton Icon="menu_book" Text="Menu" Click="@MenuClick"></RadzenButton>
-                        </div>
-                        <RadzenFieldset Text="Specials">
-                            <RadzenTextArea Value="@place.Specials" class="special"/>
-                        </RadzenFieldset>
-                    </RadzenPanel>
-                    @*<div class="map-display">
-                        <RadzenImage Path="images/mappin.png"/>
-                    </div>*@
-                </div>
-                <RadzenFieldset Text="Ordering & Delivery Options">
-                    <RadzenDataList WrapItems="true" AllowPaging="true" Data="@place.OrderingServiceList" TItem="OrderingService">
-                        <Template Context="service">
-                            <RadzenPanel>
-                                <RadzenImage Path="@($"images/{service.ImageName}.png")"/>
-                            </RadzenPanel>
-                        </Template>
-                    </RadzenDataList>
-                </RadzenFieldset>
+                        <RadzenPanel class="flex-column stat-display">
+                            <RadzenFieldset Text="Cuisine">
+                                <RadzenDataList WrapItems="true" AllowPaging="true" Data="@place.CuisineList" TItem="Cuisine">
+                                    <Template Context="cuisine">
+                                        <RadzenLabel Text="@cuisine.Name"></RadzenLabel>
+                                    </Template>
+                                </RadzenDataList>
+                            </RadzenFieldset>
+                            <div class="stat-buttons">
+                                <RadzenButton Icon="phone" Text="@place.Phone" Click="@PhoneClick"></RadzenButton>
+                                <RadzenButton Icon="web" Text="Website" Click="@WebClick"></RadzenButton>
+                                <RadzenButton Icon="menu_book" Text="Menu" Click="@MenuClick"></RadzenButton>
+                            </div>
+                            <RadzenFieldset Text="Specials">
+                                <RadzenTextArea Value="@place.Specials" class="special" />
+                            </RadzenFieldset>
+                        </RadzenPanel>
+                        @*<div class="map-display">
+                <RadzenImage Path="images/mappin.png"/>
+            </div>*@
+                    </div>
+                    <RadzenFieldset Text="Ordering & Delivery Options">
+                        <RadzenDataList WrapItems="true" AllowPaging="true" Data="@place.OrderingServiceList" TItem="OrderingService">
+                            <Template Context="service">
+                                <RadzenPanel>
+                                    <RadzenImage Path="@($"images/{service.ImageName}.png")" />
+                                </RadzenPanel>
+                            </Template>
+                        </RadzenDataList>
+                    </RadzenFieldset>
             </div>
         </ChildContent>
     </RadzenFieldset>

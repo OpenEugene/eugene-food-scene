@@ -44,7 +44,10 @@
     {
         foreach (var place in cache.AllPlaces)
         {
-            await AddMarker(place);
+            if (place != null)
+            {
+                await AddMarker(place);
+            }
         }
 
     }

@@ -1,0 +1,26 @@
+﻿@page "/config"
+@using System.Xml
+@inject HttpClient Http;
+@inject NotificationService notificationService;
+
+<RadzenFieldset Text="config">
+    <RadzenPanel>
+        <RadzenButton Click="ResetClick" Icon="refresh" />
+    </RadzenPanel>
+</RadzenFieldset>
+
+@code {
+    public async void ResetClick(EventArgs e)
+    {
+        var result = await Http.PostAsync("Config/Reset", null);
+
+        var msg = new NotificationMessage()
+        {
+            Severity = NotificationSeverity.Info,
+            Summary = "Reset",
+            Detail = await result.Content.ReadAsStringAsync(),
+            Duration = 4000
+        };
+        notificationService.Notify(msg);
+    }
+}
