@@ -215,6 +215,10 @@ app {
 
 /* RESTAURANTS : FILTER SECTION */
 
+.filter-section {
+    min-width: max-content;
+}
+
 /* Ordering */
 .ordering-for-button-set {
     display: flex;
@@ -236,6 +240,7 @@ app {
 }
     .cuisine-button-set .ui-button {
         padding: .2rem;
+        min-width: max-content;
     }
 
 /* Category */
@@ -246,6 +251,7 @@ app {
 }
     .category-button-set .ui-button {
         padding: .2rem;
+        min-width: max-content;
     }
 
 /* Tags */
@@ -256,12 +262,18 @@ app {
 }
     .tags-button-set .ui-button {
         padding: .2rem;
+        min-width: max-content;
     }
 
 .ui-selectbutton .ui-button .ui-button-text {
     display: inline-block;
     width: 100%;
     text-align: center;
+}
+
+/* When filters are in dropdown form */
+.filter-dropdown-mode {
+    display: block;
 }
 
 /* RESTAURANTS : RESTAURANT CARDS */
@@ -387,39 +399,30 @@ app {
 
 /* \\\\\    MEDIA QUERIES   ///// */
 
-/* Collapse Restaurant Filter Section */
+/* (Tablet / Small Desktop View) */
 @media(max-width: 1300px) {
+    /* MAIN LAYOUT */
+
+    /* Stack - Filter Section / Restaurant Cards */
     .home-flex {
         flex-direction: column;
     }
 
-        .home-flex .col-3 {
-            max-width: 100%;
-        }
-
-            .home-flex .col-3 .ui-fieldset-content {
-                display: flex;
-                justify-content: space-around;
-            }
-
-    .ui-selectbutton {
-        display: block;
-        margin-bottom: .5rem;
+    /* Span filter section */
+    .filter-section {
+        max-width: 100%;
     }
 
-    .col-3 .ui-buttonset-2,
-    .col-3 .ui-buttonset-4 {
-        display: block;
+    /* 5 Filter buttons per row  */
+    .ordering-for-button-set,
+    .cuisine-button-set,
+    .category-button-set,
+    .tags-button-set {
+        grid-template-columns: repeat(5, auto);
     }
 
-    .ui-buttonset-4 .ui-button {
-        min-width: 5rem;
-    }
 
-    .ui-buttonset-4 + span {
-        display: block;
-        height: 2rem;
-    }
+    /* RESTAURANT HERO PAGES */
 
     /* Stack Restaurant Hero Pages */
     .stat-display,
@@ -446,13 +449,8 @@ app {
 }
 
 @media(max-width: 1050px) {
-    /* Restaurants */
-    .d-flex .col-3 .ui-fieldset-content {
-        flex-direction: column;
-        align-items: center;
-    }
+    /* RESTAURANT HERO PAGES */
 
-    /* Restaurant Hero Pages */
     .stat-buttons button{
         width: 30%;
     }
@@ -460,27 +458,42 @@ app {
 
 
 @media (max-width: 767.98px) {
+    /* MAIN LAYOUT */
+
     /* Collapse Navigation Menu */
     .menu {
         flex-direction: column;
         text-align: center;
     }
-
-    .navigation-item {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+        .navigation-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
         .navigation-item:not(:last-child) {
             border-bottom: 1px dotted lightgray;
         }
 
-    .navigation-item-wrapper {
-        min-width: 10rem;
-        text-align: left;
-    }
+        .navigation-item-wrapper {
+            min-width: 10rem;
+            text-align: left;
+        }
 
+
+    /* RESTAURANT HERO PAGES */
+
+    /* Stack Buttons */
+    .stat-buttons {
+        flex-direction: column;
+    }
+        .stat-buttons button {
+            width: 80%;
+            margin: .5rem auto;
+        }
+
+
+    /*  ??? BLAZOR DEFAULT BOOTSTRAP ??? */
     .main .top-row:not(.auth) {
         display: none;
     }
@@ -491,43 +504,5 @@ app {
 
     .main .top-row a, .main .top-row .btn-link {
         margin-left: 0;
-    }
-
-
-    /* Restaurant Hero Pages: Stack Buttons */
-    .stat-buttons {
-        flex-direction: column;
-    }
-    
-    .stat-buttons button {
-        width: 80%;
-        margin: .5rem auto;
-    }
-}
-
-@media (min-width: 768px) {
-    app {
-        flex-direction: row;
-    }
-
-    .sidebar {
-        width: 250px;
-        height: 100vh;
-        position: sticky;
-        top: 0;
-    }
-
-    .main .top-row {
-        position: sticky;
-        top: 0;
-    }
-
-    .navbar-toggler {
-        display: none;
-    }
-
-    .sidebar .collapse {
-        /* Never collapse the sidebar for wide screens */
-        display: block;
     }
 }
