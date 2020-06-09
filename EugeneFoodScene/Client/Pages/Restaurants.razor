@@ -25,7 +25,7 @@ else
                 else
                 {
                     <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true" @bind-Value="@_selectedMethods"
-                                     Change="ChangeMethod">
+                                    Change="ChangeMethod">
                         <Items>
                             @foreach (var item in cache.OrderMethods)
                             {
@@ -45,7 +45,7 @@ else
             else
             {
                 <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true" @bind-Value="@_selectedCuisines"
-                                 Change="ChangeCuisine">
+                                Change="ChangeCuisine">
                     <Items>
                         @foreach (var item in cache.Cuisines)
                         {
@@ -65,7 +65,7 @@ else
             else
             {
                 <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true" @bind-Value="@_selectedCategories"
-                                 Change="ChangeCategory">
+                                Change="ChangeCategory">
                     <Items>
                         @foreach (var item in cache.Categories)
                         {
@@ -85,7 +85,7 @@ else
             else
             {
                 <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true" @bind-Value="@_selectedTags"
-                                 Change="ChangeTag">
+                                Change="ChangeTag">
                     <Items>
                         @foreach (var item in cache.Tags)
                         {
@@ -174,7 +174,7 @@ else
         // Check a media query to see if it was matched. We can do this at any time, but it's best to check on each resize
         IsSmall = await listener.MatchMedia(Breakpoints.SmallDown);
         IsMedium = await listener.MatchMedia(Breakpoints.MediumDown);
- 
+
         // We're outside of the component's lifecycle, be sure to let it know it has to re-render.
         StateHasChanged();
     }

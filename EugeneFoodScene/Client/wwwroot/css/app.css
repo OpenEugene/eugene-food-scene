@@ -30,6 +30,9 @@ app {
 .header {
     display: block;
     background-color: #d0b02e;
+    background-image: url("/images/header-back.png");
+    background-repeat: repeat;
+    background-position: bottom;
 }
 
     .header img {
@@ -504,9 +507,4 @@ app {
         /* Never collapse the sidebar for wide screens */
         display: block;
     }
-
-    .header {
-        background-image: url("/images/header-back.png");
-        background-repeat: repeat-x;
-    }
-} 
+}
