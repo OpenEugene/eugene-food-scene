@@ -17,14 +17,14 @@ spec:
     spec:
       containers:
         - name: web-server
-          image: mvpstudio/eugene-food-scene:v1.0.7
+          image: mvpstudio/eugene-food-scene:v1.0.8
           resources:
             limits:
-              cpu: 0.25
-              memory: 250Mi
+              cpu: 0.5
+              memory: 500Mi
             requests:
-              cpu: 0.25
-              memory: 250Mi
+              cpu: 0.5
+              memory: 500Mi
           ports:
             - containerPort: 8080
   strategy:
