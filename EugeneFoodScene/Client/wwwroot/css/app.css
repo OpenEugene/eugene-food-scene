@@ -85,6 +85,7 @@ app {
                 background-color: #479cc8;
             }
 
+/* NAVIGATION MENU */
 .menu {
     display: flex;
     justify-content: space-evenly;
@@ -120,6 +121,7 @@ app {
             text-overflow: ellipsis;
         }
 
+/*  ??? DEFAULT BLAZOR BOOTSTRAP    ??? */
 .sidebar {
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
 }
@@ -211,23 +213,50 @@ app {
     }
 
 
-/* Restaurants: Filter Section */
-.ui-selectbutton {
-    display: block;
-    margin-bottom: .5rem;
-}
+/* RESTAURANTS : FILTER SECTION */
 
-.ui-chkbox:focus  {
-    outline: none;
-    border: 3px solid #479cc8;
-    border-radius: 4px;
+/* Ordering */
+.ordering-for-button-set {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
+    .ordering-for-button-set .ui-button {
+        display: inline-block;
+        width: 40%;
+        padding: 0;
+        margin: .5rem auto;
+    }
 
-.ui-buttonset-4 .ui-button {
-    display: inline-block;
-    width: 25%;
-    padding: 0;
+/* Cuisine */
+.cuisine-button-set {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-gap: .2rem;
 }
+    .cuisine-button-set .ui-button {
+        padding: .2rem;
+    }
+
+/* Category */
+.category-button-set {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-gap: .2rem;
+}
+    .category-button-set .ui-button {
+        padding: .2rem;
+    }
+
+/* Tags */
+.tags-button-set {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-gap: .2rem;
+}
+    .tags-button-set .ui-button {
+        padding: .2rem;
+    }
 
 .ui-selectbutton .ui-button .ui-button-text {
     display: inline-block;
@@ -235,13 +264,7 @@ app {
     text-align: center;
 }
 
-.ui-buttonset-4 + span {
-    display: block;
-    height: 2rem;
-}
-
-
-/* Restaurants: Restaurant Cards */
+/* RESTAURANTS : RESTAURANT CARDS */
 .ui-g {
     display: flex; 
 }
@@ -277,7 +300,7 @@ app {
             }
 
 
-/* Restaurant Hero Pages */
+/* RESTAURANT HERO PAGES */
 .contain {
     width: 80%;
     margin: 0 auto;

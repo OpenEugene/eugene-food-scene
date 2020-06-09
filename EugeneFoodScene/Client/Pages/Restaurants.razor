@@ -24,7 +24,7 @@ else
                 }
                 else
                 {
-                    <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true" @bind-Value="@_selectedMethods"
+                    <RadzenSelectBar TValue="IEnumerable<string>" class="ordering-for-button-set" Multiple="true" @bind-Value="@_selectedMethods"
                                     Change="ChangeMethod">
                         <Items>
                             @foreach (var item in cache.OrderMethods)
@@ -44,7 +44,7 @@ else
             }
             else
             {
-                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true" @bind-Value="@_selectedCuisines"
+                <RadzenSelectBar TValue="IEnumerable<string>" class="cuisine-button-set" Multiple="true" @bind-Value="@_selectedCuisines"
                                 Change="ChangeCuisine">
                     <Items>
                         @foreach (var item in cache.Cuisines)
@@ -64,7 +64,7 @@ else
             }
             else
             {
-                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true" @bind-Value="@_selectedCategories"
+                <RadzenSelectBar TValue="IEnumerable<string>" class="category-button-set" Multiple="true" @bind-Value="@_selectedCategories"
                                 Change="ChangeCategory">
                     <Items>
                         @foreach (var item in cache.Categories)
@@ -84,7 +84,7 @@ else
             }
             else
             {
-                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true" @bind-Value="@_selectedTags"
+                <RadzenSelectBar TValue="IEnumerable<string>" class="tags-button-set" Multiple="true" @bind-Value="@_selectedTags"
                                 Change="ChangeTag">
                     <Items>
                         @foreach (var item in cache.Tags)
