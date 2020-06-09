@@ -171,10 +171,12 @@ else
     {
 
 
-        // Check a media query to see if it was matched. We can do this at any time, but it's best to check on each resize
-        IsSmall = await listener.MatchMedia(Breakpoints.SmallDown);
+        // /// Medium devices (tablets, less than 992px)
+        /// @media(max-width: 991.98px) { ... } link to all fo them: https://github.com/EdCharbeneau/BlazorSize
         IsMedium = await listener.MatchMedia(Breakpoints.MediumDown);
- 
+
+
+
         // We're outside of the component's lifecycle, be sure to let it know it has to re-render.
         StateHasChanged();
     }
