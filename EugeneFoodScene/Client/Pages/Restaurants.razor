@@ -16,16 +16,16 @@
 else
 {
     <div class="d-flex home-flex">
-        <RadzenFieldset Text="Filter" class="col-3">
+        <RadzenFieldset Text="Filter" class="col-3 filter-section">
             <RadzenFieldset Text="Ordering for...">
                 @if (IsMedium)
                 {
-                    <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" @bind-Value="_selectedMethods" Multiple="true" Data="@cache.OrderMethods" Change="ChangeMethod" />
+                    <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" @bind-Value="_selectedMethods" class="filter-dropdown-mode" Multiple="true" Data="@cache.OrderMethods" Change="ChangeMethod" />
                 }
                 else
                 {
-                    <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true" @bind-Value="@_selectedMethods"
-                                     Change="ChangeMethod">
+                    <RadzenSelectBar TValue="IEnumerable<string>" class="ordering-for-button-set" Multiple="true" @bind-Value="@_selectedMethods"
+                                    Change="ChangeMethod">
                         <Items>
                             @foreach (var item in cache.OrderMethods)
                             {
@@ -39,13 +39,13 @@ else
             @if (IsMedium)
             {
                 <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
-                                @bind-Value="_selectedCuisines" Multiple="true" Data="@cache.Cuisines"
+                                @bind-Value="_selectedCuisines" class="filter-dropdown-mode" Multiple="true" Data="@cache.Cuisines"
                                 TextProperty="Name" ValueProperty="Id" Change="ChangeCuisine" />
             }
             else
             {
-                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true" @bind-Value="@_selectedCuisines"
-                                 Change="ChangeCuisine">
+                <RadzenSelectBar TValue="IEnumerable<string>" class="cuisine-button-set" Multiple="true" @bind-Value="@_selectedCuisines"
+                                Change="ChangeCuisine">
                     <Items>
                         @foreach (var item in cache.Cuisines)
                         {
@@ -59,13 +59,13 @@ else
             @if (IsMedium)
             {
                 <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
-                                @bind-Value="_selectedCategories" Multiple="true" Data="@cache.Categories"
+                                @bind-Value="_selectedCategories" class="filter-dropdown-mode" Multiple="true" Data="@cache.Categories"
                                 TextProperty="Name" ValueProperty="Id" Change="ChangeCategory" />
             }
             else
             {
-                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true" @bind-Value="@_selectedCategories"
-                                 Change="ChangeCategory">
+                <RadzenSelectBar TValue="IEnumerable<string>" class="category-button-set" Multiple="true" @bind-Value="@_selectedCategories"
+                                Change="ChangeCategory">
                     <Items>
                         @foreach (var item in cache.Categories)
                         {
@@ -79,13 +79,13 @@ else
             @if (IsMedium)
             {
                 <RadzenDropDown AllowClear="true"  FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
-                                @bind-Value="_selectedTags" Multiple="true" Data="@cache.Tags"
+                                @bind-Value="_selectedTags" class="filter-dropdown-mode" Multiple="true" Data="@cache.Tags"
                                 TextProperty="Name" ValueProperty="Id" Change="ChangeTag" />
             }
             else
             {
-                <RadzenSelectBar TValue="IEnumerable<string>" class="flex-row" Multiple="true" @bind-Value="@_selectedTags"
-                                 Change="ChangeTag">
+                <RadzenSelectBar TValue="IEnumerable<string>" class="tags-button-set" Multiple="true" @bind-Value="@_selectedTags"
+                                Change="ChangeTag">
                     <Items>
                         @foreach (var item in cache.Tags)
                         {
