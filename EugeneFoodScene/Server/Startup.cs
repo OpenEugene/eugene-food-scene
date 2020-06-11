@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 using EugeneFoodScene.Services;
+using HotChocolate;
+using EugeneFoodScene.Shared.Data;
+using HotChocolate.AspNetCore;
 
 namespace EugeneFoodScene.Server
 {
@@ -28,6 +31,10 @@ namespace EugeneFoodScene.Server
             services.AddRazorPages();
             services.AddSingleton(new AirTableService(Configuration));
             services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_INSTRUMENTATIONKEY"]);
+            services.AddGraphQL(sp => SchemaBuilder.New()
+                .AddQueryType<Query>()
+                .AddServices(sp)
+                .Create());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,8 +55,10 @@ namespace EugeneFoodScene.Server
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
-
             app.UseRouting();
+
+            app.UseGraphQL("/graph");
+
 
             app.UseEndpoints(endpoints =>
             {
