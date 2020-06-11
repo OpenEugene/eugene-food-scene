@@ -27,6 +27,7 @@ namespace EugeneFoodScene.Server
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddSingleton(new AirTableService(Configuration));
+            services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_INSTRUMENTATIONKEY"]);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
