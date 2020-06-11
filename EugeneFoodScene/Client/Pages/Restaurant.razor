@@ -46,6 +46,7 @@ else
                         <Template Context="service">
                             <RadzenPanel>
                                 <RadzenImage Path="@($"images/{service.ImageName}.png")" />
+                                <RadzenLabel Text="@service.Name"/>
                             </RadzenPanel>
                         </Template>
                     </RadzenDataList>
