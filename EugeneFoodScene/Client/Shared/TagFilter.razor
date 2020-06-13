@@ -1,0 +1,48 @@
+﻿
+@inherits ResizableCachedComponent
+
+@if (Cache?.Tags == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <RadzenFieldset Text="Tags">
+        @if (IsMedium)
+        {
+            <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+                            @bind-Value="_selectedTags" class="filter-dropdown-mode" Multiple="true" Data="@Cache.Tags"
+                            TextProperty="Name" ValueProperty="Id" Change="Change" />
+        }
+        else
+        {
+            <RadzenSelectBar TValue="IEnumerable<string>" class="tags-button-set" Multiple="true" @bind-Value="@_selectedTags" Change="Change">
+                <Items>
+                    @foreach (var item in Cache.Tags)
+                    {
+                        <RadzenSelectBarItem Text="@item.Name" Value="@item.Id"/>
+                    }
+                </Items>
+            </RadzenSelectBar>
+        }
+    </RadzenFieldset>
+    <MediaQuery Media="@Breakpoints.MediumDown" @bind-Matches="IsMedium" />
+   
+}
+
+@code {
+
+    IEnumerable<string> _selectedTags;
+  
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Cache.GetTags();
+    }
+
+    private async void Change()
+    {
+        await Cache.FilterTag(_selectedTags.ToArray());
+    }
+
+}
