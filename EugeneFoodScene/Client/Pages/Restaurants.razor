@@ -20,27 +20,7 @@ else
             <OrderingMethods/>
             <CuisineFilter/>
             <CategoryFilter/>
-           
-            <RadzenFieldset Text="Tags">
-            @if (IsMedium)
-            {
-                <RadzenDropDown AllowClear="true"  FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                @bind-Value="_selectedTags" class="filter-dropdown-mode" Multiple="true" Data="@cache.Tags"
-                                TextProperty="Name" ValueProperty="Id" Change="ChangeTag" />
-            }
-            else
-            {
-                <RadzenSelectBar TValue="IEnumerable<string>" class="tags-button-set" Multiple="true" @bind-Value="@_selectedTags"
-                                Change="ChangeTag">
-                    <Items>
-                        @foreach (var item in cache.Tags)
-                        {
-                            <RadzenSelectBarItem Text="@item.Name" Value="@item.Id"/>
-                        }
-                    </Items>
-                </RadzenSelectBar>
-            }
-            </RadzenFieldset>
+            <TagFilter/>
         </RadzenFieldset>
         <RadzenFieldset Text="Resturants">
             <RadzenDataList WrapItems="true" AllowPaging="true" Data="@cache.FoundPlaces" TItem="Place" PageSize="12">
