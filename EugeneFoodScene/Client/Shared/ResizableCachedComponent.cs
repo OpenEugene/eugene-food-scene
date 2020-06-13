@@ -8,28 +8,20 @@ using Microsoft.AspNetCore.Components;
 
 namespace EugeneFoodScene.Client.Shared
 {
-    public abstract class ResizableCachedComponent : ComponentBase
+    public abstract class ResizableCachedComponent : ComponentBase, IDisposable
     {
-        bool IsMedium = false;
-        protected ClientCache Cache;
-        private ResizeListener _listener;
+        protected bool IsMedium = false;
+        [Inject] protected ClientCache Cache { get; set; }
 
-        public ResizableCachedComponent() : base()
-        {
-         
-        }
-        public ResizableCachedComponent(ClientCache cache, ResizeListener listener) : base()
-        {
-            Cache = cache;
-            _listener = listener;
-        }
+        [Inject] private ResizeListener Listener { get; set; }
+
 
         protected override void OnAfterRender(bool firstRender)
         {
             if (firstRender)
             {
                 Cache.CacheUpdated += OnCacheUpdated;
-                _listener.OnResized += WindowResized;
+                Listener.OnResized += WindowResized;
             }
 
         }
@@ -39,7 +31,7 @@ namespace EugeneFoodScene.Client.Shared
 
             // /// Medium devices (tablets, less than 992px)
             /// @media(max-width: 991.98px) { ... } link to all fo them: https://github.com/EdCharbeneau/BlazorSize
-            IsMedium = await _listener.MatchMedia(Breakpoints.MediumDown);
+            IsMedium = await Listener.MatchMedia(Breakpoints.MediumDown);
 
             // We're outside of the component's lifecycle, be sure to let it know it has to re-render.
             StateHasChanged();

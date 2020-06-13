@@ -18,30 +18,11 @@ else
     <div class="d-flex home-flex">
         <RadzenFieldset Text="Filter" class="col-3 filter-section">
             <OrderingMethods/>
-            <RadzenFieldset Text="Cuisine">
-            @if (IsMedium)
-            {
-                <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
-                                @bind-Value="_selectedCuisines" class="filter-dropdown-mode" Multiple="true" Data="@cache.Cuisines"
-                                TextProperty="Name" ValueProperty="Id" Change="ChangeCuisine" />
-            }
-            else
-            {
-                <RadzenSelectBar TValue="IEnumerable<string>" class="cuisine-button-set" Multiple="true" @bind-Value="@_selectedCuisines"
-                                Change="ChangeCuisine">
-                    <Items>
-                        @foreach (var item in cache.Cuisines)
-                        {
-                            <RadzenSelectBarItem Text="@item.Name" Value="@item.Id"/>
-                        }
-                    </Items>
-                </RadzenSelectBar>
-            }
-            </RadzenFieldset>
+            <CuisineFilter/>
             <RadzenFieldset Text="Category">
             @if (IsMedium)
             {
-                <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+                <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                 @bind-Value="_selectedCategories" class="filter-dropdown-mode" Multiple="true" Data="@cache.Categories"
                                 TextProperty="Name" ValueProperty="Id" Change="ChangeCategory" />
             }
@@ -61,7 +42,7 @@ else
             <RadzenFieldset Text="Tags">
             @if (IsMedium)
             {
-                <RadzenDropDown AllowClear="true"  FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+                <RadzenDropDown AllowClear="true"  FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                 @bind-Value="_selectedTags" class="filter-dropdown-mode" Multiple="true" Data="@cache.Tags"
                                 TextProperty="Name" ValueProperty="Id" Change="ChangeTag" />
             }

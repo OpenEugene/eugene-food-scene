@@ -1,22 +1,22 @@
-﻿@using AirtableApiClient
-@using EugeneFoodScene.Data
-
+﻿
 @inherits ResizableCachedComponent
 
-@if (Cache.Cuisines == null)
+@if (Cache?.Cuisines == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <RadzenFieldset Text="Ordering for...">
+    <RadzenFieldset Text="Cuisine">
         @if (IsMedium)
         {
-            <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" @bind-Value="_selectedCuisines" class="filter-dropdown-mode" Multiple="true" Data="@Cache.Cuisines" Change="Change"/>
+            <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+                            @bind-Value="_selectedCuisines" class="filter-dropdown-mode" Multiple="true" Data="@Cache.Cuisines"
+                            TextProperty="Name" ValueProperty="Id" Change="Change" />
         }
         else
         {
-            <RadzenSelectBar TValue="IEnumerable<string>" class="ordering-for-button-set" Multiple="true" @bind-Value="@_selectedCuisines"
+            <RadzenSelectBar TValue="IEnumerable<string>" class="cuisine-button-set" Multiple="true" @bind-Value="@_selectedCuisines"
                              Change="Change">
                 <Items>
                     @foreach (var item in Cache.Cuisines)
@@ -27,7 +27,7 @@ else
             </RadzenSelectBar>
         }
     </RadzenFieldset>
-    <MediaQuery Media="@Breakpoints.OnlyMedium" @bind-Matches="IsMedium" />
+    
    
 }
 
