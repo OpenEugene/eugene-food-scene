@@ -1,108 +1,22 @@
 ﻿@page "/restaurants"
 @page "/"
 
-@using AirtableApiClient
-@using EugeneFoodScene.Data
+<div class="d-flex home-flex">
+    <RadzenFieldset Text="Filter" class="col-3 filter-section">
+        <OrderingMethods/>
+        <CuisineFilter/>
+        <CategoryFilter/>
+        <TagFilter/>
+    </RadzenFieldset>
+    <RadzenFieldset Text="Resturants">
+        <ResturantList/>
+    </RadzenFieldset>
+</div>
 
-@implements IDisposable
-
-@inject ClientCache cache
-@inject ResizeListener listener
-
-@if (cache.FoundPlaces == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <div class="d-flex home-flex">
-        <RadzenFieldset Text="Filter" class="col-3 filter-section">
-            <OrderingMethods/>
-            <CuisineFilter/>
-            <CategoryFilter/>
-            <TagFilter/>
-        </RadzenFieldset>
-        <RadzenFieldset Text="Resturants">
-            <RadzenDataList WrapItems="true" AllowPaging="true" Data="@cache.FoundPlaces" TItem="Place" PageSize="12">
-                <Template Context="place">
-                    <PlaceCard Place="place" />
-                </Template>
-            </RadzenDataList>
-        </RadzenFieldset>
-    </div>
-    <MediaQuery Media="@Breakpoints.OnlyMedium" @bind-Matches="IsMedium" />
-   
-}
 
 @code {
 
-    IEnumerable<string> _categories = new string[] { };
-    IEnumerable<string> _selectedCuisines;
-    IEnumerable<string> _selectedTags;
-    IEnumerable<string> _selectedCategories;
-    //IEnumerable<string> _selectedMethods = new[] { "Delivery", "Pick-up", "Curbside", "Dine-in" };
 
-    bool IsMedium = false;
+   
 
-    protected override async Task OnInitializedAsync()
-    {
-        await cache.GetFoundPlaces();
-        await cache.GetCategories();
-        await cache.GetCuisines();
-        await cache.GetTags();
-    }
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (firstRender)
-        {
-            cache.CacheUpdated += OnCacheUpdated;
-            listener.OnResized += WindowResized;
-        }
-
-    }
-
-    public void OnCacheUpdated(object sender, EventArgs e)
-    {
-        this.StateHasChanged();
-    }
-
-    public void Dispose()
-    {
-        cache.CacheUpdated -= OnCacheUpdated;
-    }
-
-    public async void ChangeCuisine()
-    {
-        await cache.FilterCuisine(_selectedCuisines.ToArray());
-    }
-
-    public async void ChangeCategory()
-    {
-        await cache.FilterCategory(_selectedCategories.ToArray());
-    }
-
-    //public async void ChangeMethod()
-    //{
-    //    await cache.FilterMethod(_selectedMethods.ToArray());
-    //}
-
-    public async void ChangeTag()
-    {
-        await cache.FilterTag(_selectedTags.ToArray());
-    }
-
-    async void WindowResized(object _, BrowserWindowSize window)
-    {
-
-
-        // /// Medium devices (tablets, less than 992px)
-        /// @media(max-width: 991.98px) { ... } link to all fo them: https://github.com/EdCharbeneau/BlazorSize
-        IsMedium = await listener.MatchMedia(Breakpoints.MediumDown);
-
-
-
-        // We're outside of the component's lifecycle, be sure to let it know it has to re-render.
-        StateHasChanged();
-    }
 }

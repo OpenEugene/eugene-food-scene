@@ -27,14 +27,14 @@ else
             </RadzenSelectBar>
         }
     </RadzenFieldset>
-    
+    <MediaQuery Media="@Breakpoints.MediumDown" @bind-Matches="IsMedium" />
    
 }
 
 @code {
 
     IEnumerable<string> _selectedCuisines;
-    bool IsMedium = false;
+   
 
     protected override async Task OnInitializedAsync()
     {
