@@ -17,24 +17,7 @@ else
 {
     <div class="d-flex home-flex">
         <RadzenFieldset Text="Filter" class="col-3 filter-section">
-            <RadzenFieldset Text="Ordering for...">
-                @if (IsMedium)
-                {
-                    <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" @bind-Value="_selectedMethods" class="filter-dropdown-mode" Multiple="true" Data="@cache.OrderMethods" Change="ChangeMethod" />
-                }
-                else
-                {
-                    <RadzenSelectBar TValue="IEnumerable<string>" class="ordering-for-button-set" Multiple="true" @bind-Value="@_selectedMethods"
-                                    Change="ChangeMethod">
-                        <Items>
-                            @foreach (var item in cache.OrderMethods)
-                            {
-                                <RadzenSelectBarItem Text="@item" Value="@item" />
-                            }
-                        </Items>
-                    </RadzenSelectBar>
-                }
-            </RadzenFieldset>
+            <OrderingMethods/>
             <RadzenFieldset Text="Cuisine">
             @if (IsMedium)
             {
@@ -105,7 +88,7 @@ else
         </RadzenFieldset>
     </div>
     <MediaQuery Media="@Breakpoints.OnlyMedium" @bind-Matches="IsMedium" />
-    <MediaQuery Media="@Breakpoints.SmallDown" @bind-Matches="IsSmall" />
+   
 }
 
 @code {
@@ -114,10 +97,9 @@ else
     IEnumerable<string> _selectedCuisines;
     IEnumerable<string> _selectedTags;
     IEnumerable<string> _selectedCategories;
-    IEnumerable<string> _selectedMethods = new[] { "Delivery", "Pick-up", "Curbside", "Dine-in" };
+    //IEnumerable<string> _selectedMethods = new[] { "Delivery", "Pick-up", "Curbside", "Dine-in" };
 
     bool IsMedium = false;
-    bool IsSmall = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -157,10 +139,10 @@ else
         await cache.FilterCategory(_selectedCategories.ToArray());
     }
 
-    public async void ChangeMethod()
-    {
-        await cache.FilterMethod(_selectedMethods.ToArray());
-    }
+    //public async void ChangeMethod()
+    //{
+    //    await cache.FilterMethod(_selectedMethods.ToArray());
+    //}
 
     public async void ChangeTag()
     {
