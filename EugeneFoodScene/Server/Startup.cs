@@ -6,9 +6,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
+using EugeneFoodScene.Data;
+using EugeneFoodScene.Server.Graph;
 using EugeneFoodScene.Services;
 using HotChocolate;
-using EugeneFoodScene.Shared.Data;
 using HotChocolate.AspNetCore;
 
 namespace EugeneFoodScene.Server
@@ -31,9 +32,12 @@ namespace EugeneFoodScene.Server
             services.AddRazorPages();
             services.AddSingleton(new AirTableService(Configuration));
             services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_INSTRUMENTATIONKEY"]);
+
             services.AddGraphQL(sp => SchemaBuilder.New()
-                .AddQueryType<Query>()
                 .AddServices(sp)
+                .AddQueryType(d => d.Name("Query"))
+                .AddType<CuisineQuery>()
+                .AddType<Cuisine>()
                 .Create());
         }
 
@@ -56,9 +60,7 @@ namespace EugeneFoodScene.Server
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
             app.UseRouting();
-
             app.UseGraphQL("/graph");
-
 
             app.UseEndpoints(endpoints =>
             {
