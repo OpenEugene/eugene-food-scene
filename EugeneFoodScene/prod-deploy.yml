@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: web-server
-          image: mvpstudio/eugene-food-scene:latest
+          image: mvpstudio/eugene-food-scene:June13c
           resources:
             limits:
               cpu: 0.5
