@@ -24,7 +24,9 @@ else
                         <RadzenFieldset Text="Cuisine">
                             <RadzenDataList WrapItems="true" AllowPaging="true" Data="@place.CuisineList" TItem="Cuisine">
                                 <Template Context="cuisine">
-                                    <RadzenLabel Text="@cuisine.Name"></RadzenLabel>
+                                    <RadzenPanel>
+                                        <RadzenLabel Text="@cuisine.Name"></RadzenLabel>
+                                    </RadzenPanel>
                                 </Template>
                             </RadzenDataList>
                         </RadzenFieldset>

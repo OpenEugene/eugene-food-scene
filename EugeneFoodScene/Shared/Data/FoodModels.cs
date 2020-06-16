@@ -24,12 +24,6 @@ namespace EugeneFoodScene.Data
         public int Order { get; set; }
     }
 
-    public class DeliveryMethods
-    {
-        public const string Delivery = "delivery";
-        public const string Pickup = "pickup";
-    }
-
     /// <summary>
     /// Name, Category, Phone, URL, Address, Notes, Order Delivery Links, Menu,
     /// </summary>
@@ -40,7 +34,6 @@ namespace EugeneFoodScene.Data
         [JsonProperty("Category")]
         public List<string> Categories { get; set; }
         public List<Category> CategoryList { get; set; } = new List<Category>();
-
         public List<string> Cuisines { get; set; }
         public List<string> Tags { get; set; }
 
@@ -73,6 +66,7 @@ namespace EugeneFoodScene.Data
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        [JsonIgnore] 
         public List<string> Places { get; set; }
         public string Order { get; set; }
     }
@@ -81,16 +75,14 @@ namespace EugeneFoodScene.Data
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public List<String> Places { get; set; }
-        public List<Place> PlacesList { get; set; }
-        public int Order { get; set; }
+       
     }
 
     public class OrderingService : IAirtable
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public List<string> Places { get; set; }
+     
         public List<string> OrderDeliveryLinks { get; set; }
         [JsonProperty("Delivery Methods")]
         public List<string> DeliveryMethods { get; set; }
@@ -104,8 +96,7 @@ namespace EugeneFoodScene.Data
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public List<string> Places { get; set; }
-        public int Order { get; set; }
+      
 
     }
 
@@ -113,7 +104,9 @@ namespace EugeneFoodScene.Data
     {
         public string Id { get; set; }
         public string URL { get; set; }
+        [JsonIgnore] 
         public List<String> Places { get; set; }
+        [JsonIgnore] 
         public List<String> OrderingServices { get; set; }
     }
 }

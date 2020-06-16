@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: eugene-food-scene-deployment
-  namespace: eugene-food-scene-prod
+  name: stage-eugene-food-scene-deployment
+  namespace: eugene-food-scene-stage
   labels:
     app: eugene-food-scene
 spec:
@@ -17,14 +17,14 @@ spec:
     spec:
       containers:
         - name: web-server
-          image: mvpstudio/eugene-food-scene:latest
+          image: mvpstudio/eugene-food-scene:June14b
           resources:
             limits:
-              cpu: 0.5
-              memory: 500Mi
+              cpu: 0.25
+              memory: 250Mi
             requests:
-              cpu: 0.5
-              memory: 500Mi
+              cpu: 0.25
+              memory: 250Mi
           ports:
             - containerPort: 8080
   strategy:

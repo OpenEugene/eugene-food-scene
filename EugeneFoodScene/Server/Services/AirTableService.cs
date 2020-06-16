@@ -38,7 +38,8 @@ namespace EugeneFoodScene.Services
         }
         public async Task<IEnumerable<Tag>> GetTagsAsync()
         {
-            return _tags ??= await GetTableAsync<Tag>("Tags");
+            _tags ??= await GetTableAsync<Tag>("Tags");
+            return _tags;
         }
         public async Task<IEnumerable<Cuisine>> GetCuisinesAsync()
         {
@@ -74,7 +75,8 @@ namespace EugeneFoodScene.Services
                     {
                         place.CuisineList.Add(await GetCuisineAsync(id));
                     }
-                   
+
+                    place.Cuisines = null; // remove from payload after hydration.
                 }
 
                 if (place.Categories != null)
@@ -83,7 +85,7 @@ namespace EugeneFoodScene.Services
                     {
                         place.CategoryList.Add(await GetCategoryAsync(id));
                     }
-                   
+                    place.Categories = null; // remove from payload after hydration.
                 }
 
                 if (place.OrderingServices != null)
@@ -92,7 +94,7 @@ namespace EugeneFoodScene.Services
                     {
                         place.OrderingServiceList.Add(await GetOrderingServiceAsync(id));
                     }
-                  
+                    place.OrderingServices = null; // remove from payload after hydration.
                 }
 
                 if (place.Tags != null)
@@ -101,7 +103,7 @@ namespace EugeneFoodScene.Services
                     {
                         place.TagList.Add(await GetTagAsync(tag));
                     }
-                   
+                    place.Tags = null; // remove from payload after hydration.
                 }
 
             }
