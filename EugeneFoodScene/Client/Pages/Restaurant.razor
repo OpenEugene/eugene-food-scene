@@ -34,7 +34,7 @@ else
                             <RadzenButton Icon="menu_book" Text="Menu" Click="@MenuClick"></RadzenButton>
                         </div>
                         <RadzenFieldset Text="Specials">
-                            <RadzenTextArea Value="@place.Specials" class="special" />
+                            <RadzenTextArea Value="@place.Specials" class="special" Disabled />
                         </RadzenFieldset>
                     </RadzenPanel>
                     @*<div class="map-display">
@@ -45,7 +45,12 @@ else
                     <RadzenDataList WrapItems="true" AllowPaging="true" Data="@place.OrderingServiceList" TItem="OrderingService">
                         <Template Context="service">
                             <RadzenPanel>
-                                <RadzenImage Path="@($"images/{service.ImageName}.png")" />
+                                <div class="service-logo">
+                                    <RadzenImage Path="@($"images/{service.ImageName}.png")"/>
+                                </div>
+                                <div class="service-name">
+                                    <RadzenLabel Text="@service.ImageName"> </RadzenLabel>
+                                </div>
                             </RadzenPanel>
                         </Template>
                     </RadzenDataList>

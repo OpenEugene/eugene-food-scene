@@ -6,6 +6,12 @@ html, body {
 
 a, .btn-link {
     color: #0366d6;
+    text-decoration: none;
+}
+
+a:hover,
+.btn-link:hover {
+    text-decoration: none;
 }
 
 .btn-primary {
@@ -341,6 +347,7 @@ app {
         }
 
     /* stat Specials */
+
     .special {
         display: block;
         height: 6rem;
@@ -353,13 +360,10 @@ app {
         .special:not(:last-child) {
             margin-bottom: 2rem;
         }
-    
-        .special:focus,
-        .special:hover {
-            outline: none;
-            border: 3px solid #479cc8;
-        }
 
+    .textarea:disabled {
+        border: 3px solid #d0b02e;
+    }
 /* Hero Pages: Map Section */
 .map-display {
     flex: 2;
@@ -395,6 +399,13 @@ app {
             max-width: 100%;
             max-height: 6rem;
         }
+
+        .service-logo,
+        .service-name {
+            display: block;
+        }
+
+
 
 
 /* \\\\\    MEDIA QUERIES   ///// */
@@ -458,28 +469,6 @@ app {
 
 
 @media (max-width: 767.98px) {
-    /* MAIN LAYOUT */
-
-    /* Collapse Navigation Menu */
-    .menu {
-        flex-direction: column;
-        text-align: center;
-    }
-        .navigation-item {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .navigation-item:not(:last-child) {
-            border-bottom: 1px dotted lightgray;
-        }
-
-        .navigation-item-wrapper {
-            min-width: 10rem;
-            text-align: left;
-        }
-
 
     /* RESTAURANT HERO PAGES */
 
@@ -492,6 +481,15 @@ app {
             margin: .5rem auto;
         }
 
+
+/* 
+        CONTRIBUTE PAGE 
+*/
+
+.contribute-box {
+    display: flex;
+    flex-direction: column;
+}
 
     /*  ??? BLAZOR DEFAULT BOOTSTRAP ??? */
     .main .top-row:not(.auth) {
