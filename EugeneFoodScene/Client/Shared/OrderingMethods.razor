@@ -1,0 +1,49 @@
+﻿@using AirtableApiClient
+@using EugeneFoodScene.Data
+
+@inherits ResizableCachedComponent
+
+@if (_selectedMethods == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<RadzenFieldset Text="Ordering for...">
+    @if (IsMedium)
+    {
+        <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" @bind-Value="_selectedMethods" class="filter-dropdown-mode" Multiple="true" Data="@Cache.OrderMethods" Change="Change" />
+    }
+    else
+    {
+        <RadzenSelectBar TValue="IEnumerable<string>" class="ordering-for-button-set" Multiple="true" @bind-Value="@_selectedMethods"
+                         Change="Change">
+            <Items>
+                @foreach (var item in Cache.OrderMethods)
+                {
+                    <RadzenSelectBarItem Text="@item" Value="@item" />
+                }
+            </Items>
+        </RadzenSelectBar>
+    }
+    <MediaQuery Media="@Breakpoints.MediumDown" @bind-Matches="IsMedium" />
+</RadzenFieldset>
+}
+
+@code {
+
+    IEnumerable<string> _selectedMethods = new[] { "Delivery", "Pick-up", "Curbside", "Dine-in" };
+    
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+
+    public async void Change()
+    {
+        await Cache.FilterMethod(_selectedMethods.ToArray());
+    }
+
+}

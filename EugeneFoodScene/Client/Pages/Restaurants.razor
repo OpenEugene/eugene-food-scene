@@ -1,181 +1,22 @@
 ﻿@page "/restaurants"
 @page "/"
 
-@using AirtableApiClient
-@using EugeneFoodScene.Data
+<div class="d-flex home-flex">
+    <RadzenFieldset Text="Filter" class="col-3 filter-section">
+        <OrderingMethods/>
+        <CuisineFilter/>
+        <CategoryFilter/>
+        <TagFilter/>
+    </RadzenFieldset>
+    <RadzenFieldset Text="Resturants">
+        <ResturantList/>
+    </RadzenFieldset>
+</div>
 
-@implements IDisposable
-
-@inject ClientCache cache
-@inject ResizeListener listener
-
-@if (cache.FoundPlaces == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <div class="d-flex home-flex">
-        <RadzenFieldset Text="Filter" class="col-3 filter-section">
-            <RadzenFieldset Text="Ordering for...">
-                @if (IsMedium)
-                {
-                    <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" @bind-Value="_selectedMethods" class="filter-dropdown-mode" Multiple="true" Data="@cache.OrderMethods" Change="ChangeMethod" />
-                }
-                else
-                {
-                    <RadzenSelectBar TValue="IEnumerable<string>" class="ordering-for-button-set" Multiple="true" @bind-Value="@_selectedMethods"
-                                    Change="ChangeMethod">
-                        <Items>
-                            @foreach (var item in cache.OrderMethods)
-                            {
-                                <RadzenSelectBarItem Text="@item" Value="@item" />
-                            }
-                        </Items>
-                    </RadzenSelectBar>
-                }
-            </RadzenFieldset>
-            <RadzenFieldset Text="Cuisine">
-            @if (IsMedium)
-            {
-                <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
-                                @bind-Value="_selectedCuisines" class="filter-dropdown-mode" Multiple="true" Data="@cache.Cuisines"
-                                TextProperty="Name" ValueProperty="Id" Change="ChangeCuisine" />
-            }
-            else
-            {
-                <RadzenSelectBar TValue="IEnumerable<string>" class="cuisine-button-set" Multiple="true" @bind-Value="@_selectedCuisines"
-                                Change="ChangeCuisine">
-                    <Items>
-                        @foreach (var item in cache.Cuisines)
-                        {
-                            <RadzenSelectBarItem Text="@item.Name" Value="@item.Id"/>
-                        }
-                    </Items>
-                </RadzenSelectBar>
-            }
-            </RadzenFieldset>
-            <RadzenFieldset Text="Category">
-            @if (IsMedium)
-            {
-                <RadzenDropDown AllowClear="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
-                                @bind-Value="_selectedCategories" class="filter-dropdown-mode" Multiple="true" Data="@cache.Categories"
-                                TextProperty="Name" ValueProperty="Id" Change="ChangeCategory" />
-            }
-            else
-            {
-                <RadzenSelectBar TValue="IEnumerable<string>" class="category-button-set" Multiple="true" @bind-Value="@_selectedCategories"
-                                Change="ChangeCategory">
-                    <Items>
-                        @foreach (var item in cache.Categories)
-                        {
-                            <RadzenSelectBarItem Text="@item.Name" Value="@item.Id"/>
-                        }
-                    </Items>
-                </RadzenSelectBar>
-            }
-            </RadzenFieldset>
-            <RadzenFieldset Text="Tags">
-            @if (IsMedium)
-            {
-                <RadzenDropDown AllowClear="true"  FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
-                                @bind-Value="_selectedTags" class="filter-dropdown-mode" Multiple="true" Data="@cache.Tags"
-                                TextProperty="Name" ValueProperty="Id" Change="ChangeTag" />
-            }
-            else
-            {
-                <RadzenSelectBar TValue="IEnumerable<string>" class="tags-button-set" Multiple="true" @bind-Value="@_selectedTags"
-                                Change="ChangeTag">
-                    <Items>
-                        @foreach (var item in cache.Tags)
-                        {
-                            <RadzenSelectBarItem Text="@item.Name" Value="@item.Id"/>
-                        }
-                    </Items>
-                </RadzenSelectBar>
-            }
-            </RadzenFieldset>
-        </RadzenFieldset>
-        <RadzenFieldset Text="Resturants">
-            <RadzenDataList WrapItems="true" AllowPaging="true" Data="@cache.FoundPlaces" TItem="Place" PageSize="12">
-                <Template Context="place">
-                    <PlaceCard Place="place" />
-                </Template>
-            </RadzenDataList>
-        </RadzenFieldset>
-    </div>
-    <MediaQuery Media="@Breakpoints.OnlyMedium" @bind-Matches="IsMedium" />
-    <MediaQuery Media="@Breakpoints.SmallDown" @bind-Matches="IsSmall" />
-}
 
 @code {
 
-    IEnumerable<string> _categories = new string[] { };
-    IEnumerable<string> _selectedCuisines;
-    IEnumerable<string> _selectedTags;
-    IEnumerable<string> _selectedCategories;
-    IEnumerable<string> _selectedMethods = new[] { "Delivery", "Pick-up", "Curbside", "Dine-in" };
 
-    bool IsMedium = false;
-    bool IsSmall = false;
+   
 
-    protected override async Task OnInitializedAsync()
-    {
-        await cache.GetFoundPlaces();
-        await cache.GetCategories();
-        await cache.GetCuisines();
-        await cache.GetTags();
-    }
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (firstRender)
-        {
-            cache.CacheUpdated += OnCacheUpdated;
-            listener.OnResized += WindowResized;
-        }
-
-    }
-
-    public void OnCacheUpdated(object sender, EventArgs e)
-    {
-        this.StateHasChanged();
-    }
-
-    public void Dispose()
-    {
-        cache.CacheUpdated -= OnCacheUpdated;
-    }
-
-    public async void ChangeCuisine()
-    {
-        await cache.FilterCuisine(_selectedCuisines.ToArray());
-    }
-
-    public async void ChangeCategory()
-    {
-        await cache.FilterCategory(_selectedCategories.ToArray());
-    }
-
-    public async void ChangeMethod()
-    {
-        await cache.FilterMethod(_selectedMethods.ToArray());
-    }
-
-    public async void ChangeTag()
-    {
-        await cache.FilterTag(_selectedTags.ToArray());
-    }
-
-    async void WindowResized(object _, BrowserWindowSize window)
-    {
-
-
-        // Check a media query to see if it was matched. We can do this at any time, but it's best to check on each resize
-        IsSmall = await listener.MatchMedia(Breakpoints.SmallDown);
-        IsMedium = await listener.MatchMedia(Breakpoints.MediumDown);
-
-        // We're outside of the component's lifecycle, be sure to let it know it has to re-render.
-        StateHasChanged();
-    }
 }
