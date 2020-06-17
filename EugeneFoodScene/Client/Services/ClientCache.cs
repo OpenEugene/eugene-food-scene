@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -208,8 +208,8 @@ namespace EugeneFoodScene.Client.Services
                 {
                     Severity = NotificationSeverity.Info,
                     Summary = "Matches!",
-                    Detail = $"found {list.Count} matching places.",
-                    Duration = 2000
+                    Detail = $"Found {list.Count} matching places.",
+                    Duration = 4000
                 };
                 _notificationService.Notify(msg);
                 FoundPlaces = list;

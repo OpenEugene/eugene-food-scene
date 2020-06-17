@@ -47,17 +47,12 @@ else
                     <RadzenDataList WrapItems="true" AllowPaging="true" Data="@place.OrderingServiceList" TItem="OrderingService">
                         <Template Context="service">
                             <RadzenPanel>
-<<<<<<< HEAD
                                 <div class="service-logo">
                                     <RadzenImage Path="@($"images/{service.ImageName}.png")"/>
                                 </div>
                                 <div class="service-name">
                                     <RadzenLabel Text="@service.ImageName"> </RadzenLabel>
                                 </div>
-=======
-                                <RadzenImage Path="@($"images/{service.ImageName}.png")" />
-                                <RadzenLabel Text="@service.Name"/>
->>>>>>> f90e6dda886c8af8b273e201e82968b4c486806a
                             </RadzenPanel>
                         </Template>
                     </RadzenDataList>
