@@ -507,7 +507,7 @@ app {
 }
 
 /* header */
-h1, h2, h3 {
+.h123-reset {
   margin: 0;
   padding: 0;
 }
