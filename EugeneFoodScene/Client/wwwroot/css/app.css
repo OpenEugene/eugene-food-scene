@@ -467,7 +467,6 @@ app {
     }
 }
 
-<<<<<<< HEAD
 
 @media (max-width: 767.98px) {
 
@@ -520,7 +519,7 @@ app {
   font-family: 'Krona One', sans-serif;
   background-color: #d0b02e;
 }
-.top-row {
+.top-row-header {
   display: flex;
   justify-content: center;
   /* margin-left: auto;
@@ -601,5 +600,4 @@ app {
 /* end mobile view */
 
 /* end header css */
-=======
->>>>>>> f90e6dda886c8af8b273e201e82968b4c486806a
+
