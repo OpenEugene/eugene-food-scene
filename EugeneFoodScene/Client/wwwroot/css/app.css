@@ -400,10 +400,28 @@ app {
             max-height: 6rem;
         }
 
+        .contain .ui-g .ui-panel-content .flex-column {
+            display: flex;
+            align-items: center;
+        }
+
         .service-logo,
         .service-name {
             display: block;
         }
+
+        .service-logo {
+            min-height: 6.25rem;
+        }
+
+        .service-name {
+            text-align: center;
+            font-size: 1.3rem;
+        }
+
+            .service-name label {
+                margin-top: 1rem;
+            }
 
 
 
